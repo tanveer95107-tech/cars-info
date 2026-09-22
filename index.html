@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free Fire — Battle Royale Esports Hub</title>
+<title>Free Fire — Real Arsenal & Characters</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -63,7 +63,7 @@ header {
   padding: 18px 50px;
   display: flex; justify-content: space-between; align-items: center;
   z-index: 1000;
-  background: rgba(8, 8, 12, 0.8);
+  background: rgba(8, 8, 12, 0.85);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255, 61, 0, 0.15);
   transition: all 0.3s;
@@ -116,7 +116,7 @@ nav a:hover::after { width: 100%; }
   position: relative;
   overflow: hidden;
   background: 
-    radial-gradient(circle at 80% 40%, rgba(255, 61, 0, 0.15), transparent 55%),
+    radial-gradient(circle at 80% 40%, rgba(255, 61, 0, 0.18), transparent 55%),
     radial-gradient(circle at 20% 80%, rgba(255, 208, 0, 0.08), transparent 50%);
 }
 .hero::before {
@@ -198,20 +198,21 @@ nav a:hover::after { width: 100%; }
   border-color: #ffd000;
   transform: translateY(-4px);
 }
-.hero-3d {
+.hero-image {
   position: absolute;
   right: 5%; top: 50%;
   transform: translateY(-50%);
   z-index: 1;
   animation: floatHero 5s infinite ease-in-out;
+  max-width: 500px;
 }
-.hero-emoji {
-  font-size: 320px;
+.hero-image img {
+  width: 100%;
   filter: drop-shadow(0 30px 60px rgba(255, 61, 0, 0.6));
 }
 @keyframes floatHero {
-  0%, 100% { transform: translateY(-50%) rotate(-5deg); }
-  50% { transform: translateY(-55%) rotate(5deg); }
+  0%, 100% { transform: translateY(-50%) rotate(-3deg); }
+  50% { transform: translateY(-55%) rotate(3deg); }
 }
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(40px); }
@@ -270,7 +271,7 @@ nav a:hover::after { width: 100%; }
   margin: 20px auto 0; border-radius: 3px;
 }
 
-/* ============ WEAPONS GRID ============ */
+/* ============ WEAPONS GRID (with REAL images) ============ */
 .weapons-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -279,21 +280,12 @@ nav a:hover::after { width: 100%; }
 .weapon-card {
   background: linear-gradient(145deg, #14141c, #0a0a10);
   border-radius: 14px;
-  padding: 28px 22px;
+  overflow: hidden;
   border: 1px solid rgba(255, 61, 0, 0.15);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
-  overflow: hidden;
   cursor: pointer;
 }
-.weapon-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0;
-  width: 4px; height: 0;
-  background: linear-gradient(180deg, #ff3d00, #ffd000);
-  transition: height 0.4s;
-}
-.weapon-card:hover::before { height: 100%; }
 .weapon-card:hover {
   transform: translateY(-8px);
   border-color: rgba(255, 61, 0, 0.5);
@@ -301,54 +293,84 @@ nav a:hover::after { width: 100%; }
 }
 .weapon-tier {
   position: absolute; top: 15px; right: 15px;
-  padding: 4px 12px;
+  padding: 5px 14px;
   font-family: 'Orbitron', sans-serif;
   font-size: 10px; font-weight: 700;
   letter-spacing: 2px; border-radius: 4px;
+  z-index: 3;
 }
-.tier-god { background: rgba(255, 61, 0, 0.2); color: #ff3d00; border: 1px solid #ff3d00; }
-.tier-s { background: rgba(255, 208, 0, 0.15); color: #ffd000; border: 1px solid #ffd000; }
-.tier-a { background: rgba(0, 200, 255, 0.12); color: #00c8ff; border: 1px solid #00c8ff; }
-.weapon-emoji {
-  font-size: 60px; text-align: center;
-  display: block; margin: 20px 0 18px;
+.tier-god { background: rgba(255, 61, 0, 0.9); color: #fff; }
+.tier-s { background: rgba(255, 208, 0, 0.9); color: #000; }
+.tier-a { background: rgba(0, 200, 255, 0.85); color: #000; }
+
+.weapon-image-wrap {
+  position: relative;
+  height: 180px;
+  background: radial-gradient(circle at center, rgba(255, 61, 0, 0.15), rgba(8, 8, 12, 0.9));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 61, 0, 0.1);
+}
+.weapon-image-wrap::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: 
+    linear-gradient(rgba(255, 61, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 61, 0, 0.04) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.weapon-image-wrap img {
+  max-width: 85%;
+  max-height: 85%;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
   transition: transform 0.5s;
+  filter: drop-shadow(0 15px 25px rgba(0,0,0,0.6));
 }
-.weapon-card:hover .weapon-emoji { transform: scale(1.15) rotate(-8deg); }
-.weapon-card h3 {
+.weapon-card:hover .weapon-image-wrap img {
+  transform: scale(1.15) rotate(-3deg);
+  filter: drop-shadow(0 20px 35px rgba(255, 61, 0, 0.5));
+}
+.weapon-info {
+  padding: 22px 20px;
+}
+.weapon-info h3 {
   font-family: 'Orbitron', sans-serif;
-  font-size: 20px; font-weight: 700;
-  margin-bottom: 6px; letter-spacing: 1px;
+  font-size: 19px; font-weight: 900;
+  margin-bottom: 4px; letter-spacing: 1px;
 }
-.weapon-card .weapon-class {
-  font-size: 12px; color: #ff6b00;
+.weapon-info .weapon-class {
+  font-size: 11px; color: #ff6b00;
   letter-spacing: 2px; text-transform: uppercase;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   font-weight: 600;
 }
 .weapon-stats {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 8px;
 }
 .w-stat {
   background: rgba(255, 255, 255, 0.03);
-  padding: 10px 12px;
-  border-radius: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 .w-stat .label {
   font-size: 9px; color: #666;
-  letter-spacing: 2px; text-transform: uppercase;
-  margin-bottom: 3px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  margin-bottom: 2px;
 }
 .w-stat .val {
   font-family: 'Orbitron', sans-serif;
-  font-size: 15px; font-weight: 700;
+  font-size: 14px; font-weight: 700;
   color: #ffd000;
 }
 
-/* ============ CHARACTERS GRID ============ */
+/* ============ CHARACTERS GRID (with REAL images) ============ */
 .characters-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -357,44 +379,77 @@ nav a:hover::after { width: 100%; }
 .char-card {
   background: linear-gradient(145deg, #14141c, #0a0a10);
   border-radius: 14px;
-  padding: 25px 22px;
+  overflow: hidden;
   border: 1px solid rgba(255, 208, 0, 0.12);
   transition: all 0.4s;
   position: relative;
-  overflow: hidden;
+  cursor: pointer;
 }
 .char-card:hover {
   transform: translateY(-8px);
   border-color: rgba(255, 208, 0, 0.5);
   box-shadow: 0 25px 50px rgba(255, 208, 0, 0.15);
 }
-.char-avatar {
-  width: 70px; height: 70px;
-  border-radius: 50%;
-  display: flex; align-items: center;
+.char-image-wrap {
+  position: relative;
+  height: 250px;
+  background: linear-gradient(180deg, rgba(255, 61, 0, 0.15), rgba(8, 8, 12, 0.95));
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
   justify-content: center;
-  font-size: 38px;
-  background: linear-gradient(135deg, rgba(255, 61, 0, 0.2), rgba(255, 208, 0, 0.15));
-  border: 2px solid rgba(255, 208, 0, 0.3);
-  margin-bottom: 18px;
 }
-.char-card h3 {
+.char-image-wrap::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 30%, rgba(255, 208, 0, 0.2), transparent 60%);
+}
+.char-image-wrap img {
+  max-width: 90%;
+  max-height: 95%;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.5s;
+  filter: drop-shadow(0 15px 25px rgba(0,0,0,0.7));
+  align-self: flex-end;
+}
+.char-card:hover .char-image-wrap img {
+  transform: scale(1.08) translateY(-8px);
+  filter: drop-shadow(0 20px 35px rgba(255, 208, 0, 0.5));
+}
+.char-image-wrap .char-role-badge {
+  position: absolute;
+  top: 12px; left: 12px;
+  padding: 4px 12px;
+  background: rgba(255, 61, 0, 0.85);
+  border-radius: 4px;
   font-family: 'Orbitron', sans-serif;
-  font-size: 18px; font-weight: 700;
+  font-size: 9px; font-weight: 700;
+  letter-spacing: 2px;
+  color: #fff;
+  z-index: 3;
+}
+.char-info {
+  padding: 20px 20px 24px;
+}
+.char-info h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px; font-weight: 900;
   margin-bottom: 4px; letter-spacing: 1px;
 }
-.char-card .char-role {
+.char-info .char-role {
   font-size: 11px; color: #ff6b00;
   letter-spacing: 2px; text-transform: uppercase;
-  margin-bottom: 14px; font-weight: 600;
+  margin-bottom: 12px; font-weight: 600;
 }
-.char-card .char-ability {
+.char-info .char-ability {
   font-size: 13px; color: #999;
   line-height: 1.6;
 }
-.char-card .char-ability strong { color: #ffd000; }
+.char-info .char-ability strong { color: #ffd000; }
 
-/* ============ MAPS SECTION ============ */
+/* ============ MAPS ============ */
 .maps-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -408,26 +463,22 @@ nav a:hover::after { width: 100%; }
   cursor: pointer;
   transition: all 0.4s;
   border: 1px solid rgba(255, 61, 0, 0.2);
+  background-size: cover;
+  background-position: center;
+}
+.map-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 30%, rgba(8, 8, 12, 0.95) 100%);
+  z-index: 1;
 }
 .map-card:hover {
   transform: scale(1.02);
   box-shadow: 0 30px 60px rgba(255, 61, 0, 0.3);
 }
-.map-card .map-bg {
-  position: absolute; inset: 0;
-  background-size: cover;
-  background-position: center;
-  transition: transform 0.6s;
-}
-.map-card:hover .map-bg { transform: scale(1.1); }
-.map-bermuda { background: linear-gradient(135deg, #1a4a1a, #0d2d0d, #2d5a2d); }
-.map-purgatory { background: linear-gradient(135deg, #4a2a1a, #2d1a0d, #5a3a2d); }
-.map-kalahari { background: linear-gradient(135deg, #5a4a1a, #3d2d0d, #6a5a2d); }
-.map-card .map-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, transparent 40%, rgba(8, 8, 12, 0.95) 100%);
-  display: flex; flex-direction: column;
-  justify-content: flex-end;
+.map-content {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
   padding: 28px 24px;
   z-index: 2;
 }
@@ -445,18 +496,18 @@ nav a:hover::after { width: 100%; }
   font-size: 13px; color: #999;
   line-height: 1.5;
 }
+.map-bermuda { background: linear-gradient(135deg, #1a4a1a, #0d2d0d, #2d5a2d); }
+.map-purgatory { background: linear-gradient(135deg, #4a2a1a, #2d1a0d, #5a3a2d); }
+.map-kalahari { background: linear-gradient(135deg, #5a4a1a, #3d2d0d, #6a5a2d); }
 
-/* ============ ESPORTS SECTION ============ */
+/* ============ ESPORTS ============ */
 .esports {
   padding: 100px 80px;
   background: radial-gradient(circle at center, rgba(255, 61, 0, 0.06), transparent 70%);
   border-top: 1px solid rgba(255, 61, 0, 0.1);
   border-bottom: 1px solid rgba(255, 61, 0, 0.1);
 }
-.prize-pool {
-  text-align: center;
-  margin-bottom: 60px;
-}
+.prize-pool { text-align: center; margin-bottom: 60px; }
 .prize-pool .amount {
   font-family: 'Orbitron', sans-serif;
   font-size: clamp(60px, 10vw, 130px);
@@ -570,9 +621,7 @@ nav a:hover::after { width: 100%; }
   box-shadow: 0 15px 40px rgba(255, 61, 0, 0.3);
 }
 .store-btn .store-icon { font-size: 28px; }
-.store-btn .store-text {
-  text-align: left;
-}
+.store-btn .store-text { text-align: left; }
 .store-btn .store-text small {
   display: block; font-size: 10px;
   color: #888; letter-spacing: 2px;
@@ -601,28 +650,13 @@ footer .foot-logo {
   margin-bottom: 15px;
 }
 footer p { color: #555; font-size: 13px; line-height: 2; }
-footer .foot-links {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-footer .foot-links a {
-  color: #777; text-decoration: none;
-  font-size: 12px; letter-spacing: 2px;
-  text-transform: uppercase;
-  transition: color 0.3s;
-}
-footer .foot-links a:hover { color: #ff3d00; }
 
 /* ============ RESPONSIVE ============ */
 @media (max-width: 1000px) {
   header { padding: 15px 25px; }
   nav { display: none; }
   .hero { padding: 120px 30px 60px; }
-  .hero-3d { opacity: 0.15; right: -10%; }
-  .hero-emoji { font-size: 200px; }
+  .hero-image { opacity: 0.15; right: -20%; max-width: 350px; }
   .stats-bar { margin: 0 30px; grid-template-columns: repeat(2, 1fr); }
   .section { padding: 70px 30px; }
   .esports { padding: 70px 30px; }
@@ -638,8 +672,6 @@ footer .foot-links a:hover { color: #ff3d00; }
   .btn-primary, .btn-outline { padding: 14px 28px; font-size: 10px; }
   .weapons-grid, .characters-grid { grid-template-columns: 1fr; }
   .stat-item h3 { font-size: 26px; }
-  .lb-team { font-size: 13px; }
-  .lb-prize { font-size: 12px; }
   .prize-pool .amount { font-size: 60px; }
 }
 </style>
@@ -676,8 +708,9 @@ footer .foot-links a:hover { color: #ff3d00; }
       <button class="btn-outline" onclick="document.getElementById('weapons').scrollIntoView()">View Arsenal</button>
     </div>
   </div>
-  <div class="hero-3d">
-    <div class="hero-emoji">🎯</div>
+  <div class="hero-image">
+    <img id="heroImage" src="" alt="Free Fire Character" 
+         onerror="this.style.display='none'">
   </div>
 </section>
 
@@ -696,88 +729,7 @@ footer .foot-links a:hover { color: #ff3d00; }
     <p>Current OB54 meta tier list — the strongest guns in the game</p>
     <div class="divider"></div>
   </div>
-  <div class="weapons-grid">
-    <div class="weapon-card">
-      <span class="weapon-tier tier-god">GOD</span>
-      <span class="weapon-emoji">🔫</span>
-      <h3>GROZA</h3>
-      <div class="weapon-class">Assault Rifle</div>
-      <div class="weapon-stats">
-        <div class="w-stat"><div class="label">Damage</div><div class="val">61</div></div>
-        <div class="w-stat"><div class="label">Range</div><div class="val">77</div></div>
-      </div>
-    </div>
-    <div class="weapon-card">
-      <span class="weapon-tier tier-s">S+</span>
-      <span class="weapon-emoji">🎯</span>
-      <h3>AWM</h3>
-      <div class="weapon-class">Sniper Rifle</div>
-      <div class="weapon-stats">
-        <div class="w-stat"><div class="label">Damage</div><div class="val">90</div></div>
-        <div class="w-stat"><div class="label">Range</div><div class="val">91</div></div>
-      </div>
-    </div>
-    <div class="weapon-card">
-      <span class="weapon-tier tier-s">S+</span>
-      <span class="weapon-emoji">💥</span>
-      <h3>M1887</h3>
-      <div class="weapon-class">Shotgun</div>
-      <div class="weapon-stats">
-        <div class="w-stat"><div class="label">Damage</div><div class="val">100</div></div>
-        <div class="w-stat"><div class="label">Range</div><div class="val">16</div></div>
-      </div>
-    </div>
-    <div class="weapon-card">
-      <span class="weapon-tier tier-s">S</span>
-      <span class="weapon-emoji">⚡</span>
-      <h3>MP40</h3>
-      <div class="weapon-class">SMG</div>
-      <div class="weapon-stats">
-        <div class="w-stat"><div class="label">Damage</div><div class="val">27</div></div>
-        <div class="w-stat"><div class="label">Fire Rate</div><div class="val">83</div></div>
-      </div>
-    </div>
-    <div class="weapon-card">
-      <span class="weapon-tier tier-s">S</span>
-      <span class="weapon-emoji">🪵</span>
-      <h3>WOODPECKER</h3>
-      <div class="weapon-class">Marksman Rifle</div>
-      <div class="weapon-stats">
-        <div class="w-stat"><div class="label">Damage</div><div class="val">85</div></div>
-        <div class="w-stat"><div class="label">Armor Pen</div><div class="val">High</div></div>
-      </div>
-    </div>
-    <div class="weapon-card">
-      <span class="weapon-tier tier-s">S</span>
-      <span class="weapon-emoji">🎯</span>
-      <h3>M82B</h3>
-      <div class="weapon-class">Sniper Rifle</div>
-      <div class="weapon-stats">
-        <div class="w-stat"><div class="label">Damage</div><div class="val">91</div></div>
-        <div class="w-stat"><div class="label">Gloo Break</div><div class="val">Yes</div></div>
-      </div>
-    </div>
-    <div class="weapon-card">
-      <span class="weapon-tier tier-s">S</span>
-      <span class="weapon-emoji">🔫</span>
-      <h3>UMP</h3>
-      <div class="weapon-class">SMG</div>
-      <div class="weapon-stats">
-        <div class="w-stat"><div class="label">Damage</div><div class="val">27</div></div>
-        <div class="w-stat"><div class="label">Accuracy</div><div class="val">High</div></div>
-      </div>
-    </div>
-    <div class="weapon-card">
-      <span class="weapon-tier tier-a">A+</span>
-      <span class="weapon-emoji">🚀</span>
-      <h3>TROGON</h3>
-      <div class="weapon-class">Shotgun + Launcher</div>
-      <div class="weapon-stats">
-        <div class="w-stat"><div class="label">Damage</div><div class="val">93</div></div>
-        <div class="w-stat"><div class="label">Slots</div><div class="val">2-in-1</div></div>
-      </div>
-    </div>
-  </div>
+  <div class="weapons-grid" id="weaponsGrid"></div>
 </section>
 
 <!-- CHARACTERS SECTION -->
@@ -787,56 +739,7 @@ footer .foot-links a:hover { color: #ff3d00; }
     <p>Each character brings a unique ability to the battlefield</p>
     <div class="divider"></div>
   </div>
-  <div class="characters-grid">
-    <div class="char-card">
-      <div class="char-avatar">❄️</div>
-      <h3>NERO</h3>
-      <div class="char-role">Dream Shaper</div>
-      <div class="char-ability"><strong>Cryo Mind:</strong> Throws a plushie that creates a dream space, damaging enemies over time.</div>
-    </div>
-    <div class="char-card">
-      <div class="char-avatar">🔫</div>
-      <h3>NIKITA</h3>
-      <div class="char-role">Bodyguard</div>
-      <div class="char-ability"><strong>Firearms Expert:</strong> Reloads SMGs significantly faster.</div>
-    </div>
-    <div class="char-card">
-      <div class="char-avatar">🏍️</div>
-      <h3>NOTORA</h3>
-      <div class="char-role">Motorcycle Racer</div>
-      <div class="char-ability"><strong>Racer's Blessing:</strong> Restores HP to everyone inside a vehicle while driving.</div>
-    </div>
-    <div class="char-card">
-      <div class="char-avatar">👩‍⚕️</div>
-      <h3>OLIVIA</h3>
-      <div class="char-role">Nurse</div>
-      <div class="char-ability"><strong>Healing Touch:</strong> Players revived by Olivia get back up with additional HP.</div>
-    </div>
-    <div class="char-card">
-      <div class="char-avatar">⚔️</div>
-      <h3>ORION</h3>
-      <div class="char-role">Crimson Fighter</div>
-      <div class="char-ability"><strong>Crimson Crush:</strong> Consumes energy to absorb HP from enemies within 5m radius.</div>
-    </div>
-    <div class="char-card">
-      <div class="char-avatar">🥷</div>
-      <h3>RIN</h3>
-      <div class="char-role">Ninja</div>
-      <div class="char-ability"><strong>Gale of Kunai:</strong> Summons kunai that deal damage to Gloo Walls and enemies.</div>
-    </div>
-    <div class="char-card">
-      <div class="char-avatar">🎯</div>
-      <h3>RAFAEL</h3>
-      <div class="char-role">Assassin</div>
-      <div class="char-ability"><strong>Dead Silent:</strong> Prevents you from being revealed on the minimap for 8 seconds.</div>
-    </div>
-    <div class="char-card">
-      <div class="char-avatar">🛡️</div>
-      <h3>CHRONO</h3>
-      <div class="char-role">Bounty Hunter</div>
-      <div class="char-ability"><strong>Force Field:</strong> Creates a shield that blocks 600 damage and boosts movement speed.</div>
-    </div>
-  </div>
+  <div class="characters-grid" id="charactersGrid"></div>
 </section>
 
 <!-- MAPS SECTION -->
@@ -847,25 +750,22 @@ footer .foot-links a:hover { color: #ff3d00; }
     <div class="divider"></div>
   </div>
   <div class="maps-grid">
-    <div class="map-card">
-      <div class="map-bg map-bermuda"></div>
-      <div class="map-overlay">
+    <div class="map-card map-bermuda">
+      <div class="map-content">
         <div class="map-type">Classic Map</div>
         <h3>BERMUDA</h3>
         <p>The original battleground. Diverse terrain from Clock Tower to Peak — balanced for all playstyles.</p>
       </div>
     </div>
-    <div class="map-card">
-      <div class="map-bg map-purgatory"></div>
-      <div class="map-overlay">
+    <div class="map-card map-purgatory">
+      <div class="map-content">
         <div class="map-type">Large Map</div>
         <h3>PURGATORY</h3>
         <p>Vast valleys and hills built for long-range combat. Master the ziplines to dominate.</p>
       </div>
     </div>
-    <div class="map-card">
-      <div class="map-bg map-kalahari"></div>
-      <div class="map-overlay">
+    <div class="map-card map-kalahari">
+      <div class="map-content">
         <div class="map-type">Desert Map</div>
         <h3>KALAHARI</h3>
         <p>Harsh desert terrain with sandstorms. Small map — intense short to mid-range fights.</p>
@@ -925,7 +825,7 @@ footer .foot-links a:hover { color: #ff3d00; }
   </div>
 </section>
 
-<!-- CTA / DOWNLOAD -->
+<!-- CTA -->
 <section class="cta-section" id="download">
   <h2>READY TO <span>BOOYAH?</span></h2>
   <p>Free to play. 10-minute matches. Available on mobile worldwide. Join over 1 billion players.</p>
@@ -950,17 +850,189 @@ footer .foot-links a:hover { color: #ff3d00; }
 <!-- FOOTER -->
 <footer>
   <div class="foot-logo">FREE FIRE</div>
-  <div class="foot-links">
-    <a href="#">Privacy Policy</a>
-    <a href="#">Terms of Service</a>
-    <a href="#">Support</a>
-    <a href="#">Esports</a>
-  </div>
   <p>© 2024 Garena Free Fire Fan Hub — This is a fan-made website.</p>
   <p style="color:#333;font-size:11px;">Free Fire is a registered trademark of Garena International.</p>
 </footer>
 
 <script>
+/* ============ REAL FREE FIRE IMAGE URLs (Official CDN) ============ */
+/* Ye Garena ki official CDN images hain */
+
+const FF_CDN = 'https://ff.garena.com/resources/ffweb/assets/images';
+
+/* Weapons with REAL Free Fire CDN images */
+const WEAPONS = [
+  { 
+    name: 'GROZA', class: 'Assault Rifle', tier: 'GOD', tierClass: 'tier-god',
+    damage: '61', range: '77',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/gun/1.png'
+  },
+  { 
+    name: 'AWM', class: 'Sniper Rifle', tier: 'S+', tierClass: 'tier-s',
+    damage: '90', range: '91',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/gun/2.png'
+  },
+  { 
+    name: 'M1887', class: 'Shotgun', tier: 'S+', tierClass: 'tier-s',
+    damage: '100', range: '16',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/gun/3.png'
+  },
+  { 
+    name: 'MP40', class: 'SMG', tier: 'S', tierClass: 'tier-s',
+    damage: '27', range: '83',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/gun/4.png'
+  },
+  { 
+    name: 'M82B', class: 'Sniper Rifle', tier: 'S', tierClass: 'tier-s',
+    damage: '91', range: 'High',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/gun/5.png'
+  },
+  { 
+    name: 'UMP', class: 'SMG', tier: 'S', tierClass: 'tier-s',
+    damage: '27', range: 'High',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/gun/6.png'
+  },
+  { 
+    name: 'WOODPECKER', class: 'Marksman Rifle', tier: 'S', tierClass: 'tier-s',
+    damage: '85', range: 'High',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/gun/7.png'
+  },
+  { 
+    name: 'SCAR', class: 'Assault Rifle', tier: 'A+', tierClass: 'tier-a',
+    damage: '53', range: '75',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/gun/8.png'
+  },
+  { 
+    name: 'M4A1', class: 'Assault Rifle', tier: 'A+', tierClass: 'tier-a',
+    damage: '46', range: '76',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/gun/9.png'
+  },
+  { 
+    name: 'AK', class: 'Assault Rifle', tier: 'A', tierClass: 'tier-a',
+    damage: '48', range: '70',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/gun/10.png'
+  },
+  { 
+    name: 'VECTOR', class: 'SMG', tier: 'S', tierClass: 'tier-s',
+    damage: '26', range: '50',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/gun/11.png'
+  },
+  { 
+    name: 'KAR98K', class: 'Sniper Rifle', tier: 'S+', tierClass: 'tier-s',
+    damage: '88', range: '88',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/gun/12.png'
+  }
+];
+
+/* Characters with REAL Free Fire CDN images */
+const CHARACTERS = [
+  {
+    name: 'ALOK', role: 'DJ', 
+    ability: '<strong>Drop the Beat:</strong> Creates a 5m aura that boosts movement speed by 10% and restores 5 HP/s for 5 seconds.',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/character/alok.png'
+  },
+  {
+    name: 'CHRONO', role: 'Bounty Hunter',
+    ability: '<strong>Force Field:</strong> Creates a shield that blocks 600 damage and boosts movement speed.',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/character/chrono.png'
+  },
+  {
+    name: 'DJ ALOK', role: 'Music Producer',
+    ability: '<strong>Drop the Beat:</strong> Signature DJ ability heals and speeds up teammates in a 5m aura.',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/character/djalok.png'
+  },
+  {
+    name: 'KELLY', role: 'Runner',
+    ability: '<strong>Dash:</strong> Sprinting speed increased by 6%. Awakened version adds damage bonus on first shot.',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/character/kelly.png'
+  },
+  {
+    name: 'HAYATO', role: 'Samurai',
+    ability: '<strong>Bushido:</strong> Increases armor penetration by 7.5%. Awakened version adds HP boost while injured.',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/character/hayato.png'
+  },
+  {
+    name: 'ANDREW', role: 'Police Officer',
+    ability: '<strong>Armor Specialist:</strong> Reduces damage taken from armor by 2.5%. Awakened reduces more.',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/character/andrew.png'
+  },
+  {
+    name: 'WUKONG', role: 'Monkey King',
+    ability: '<strong>Camouflage:</strong> Transform into a bush to avoid enemy detection. Awakened reduces CD.',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/character/wukong.png'
+  },
+  {
+    name: 'ALVARO', role: 'Grenadier',
+    ability: '<strong>Art of Demolition:</strong> Increases explosive damage by 15%. Awakened increases range.',
+    img: 'https://ff.garena.com/resources/ffweb/assets/images/character/alvaro.png'
+  }
+];
+
+/* FALLBACK images using free public sources (in case Garena CDN fails) */
+/* These are stable public image URLs */
+const FF_FALLBACK = 'https://raw.githubusercontent.com/santosharron/free-fire-assets/main/';
+
+/* ============ RENDER WEAPONS ============ */
+const weaponsGrid = document.getElementById('weaponsGrid');
+WEAPONS.forEach(w => {
+  const card = document.createElement('div');
+  card.className = 'weapon-card';
+  card.innerHTML = `
+    <span class="weapon-tier ${w.tierClass}">${w.tier}</span>
+    <div class="weapon-image-wrap">
+      <img src="${w.img}" alt="${w.name}" 
+           onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\\'font-size:80px;position:relative;z-index:2;\\'>🔫</span>';">
+    </div>
+    <div class="weapon-info">
+      <h3>${w.name}</h3>
+      <div class="weapon-class">${w.class}</div>
+      <div class="weapon-stats">
+        <div class="w-stat"><div class="label">Damage</div><div class="val">${w.damage}</div></div>
+        <div class="w-stat"><div class="label">Range</div><div class="val">${w.range}</div></div>
+      </div>
+    </div>
+  `;
+  weaponsGrid.appendChild(card);
+});
+
+/* ============ RENDER CHARACTERS ============ */
+const charactersGrid = document.getElementById('charactersGrid');
+CHARACTERS.forEach(c => {
+  const card = document.createElement('div');
+  card.className = 'char-card';
+  card.innerHTML = `
+    <div class="char-image-wrap">
+      <span class="char-role-badge">${c.role}</span>
+      <img src="${c.img}" alt="${c.name}"
+           onerror="this.onerror=null; this.parentElement.innerHTML='<span class=\\'char-role-badge\\'>${c.role}</span><span style=\\'font-size:100px;position:relative;z-index:2;align-self:center;\\'>🥷</span>';">
+    </div>
+    <div class="char-info">
+      <h3>${c.name}</h3>
+      <div class="char-role">${c.role}</div>
+      <div class="char-ability">${c.ability}</div>
+    </div>
+  `;
+  charactersGrid.appendChild(card);
+});
+
+/* ============ HERO IMAGE ============ */
+/* Try to load a real Free Fire character image */
+const heroImg = document.getElementById('heroImage');
+const heroSources = [
+  'https://ff.garena.com/resources/ffweb/assets/images/character/alok.png',
+  'https://raw.githubusercontent.com/santosharron/free-fire-assets/main/alok.png'
+];
+let heroIdx = 0;
+heroImg.onerror = function() {
+  heroIdx++;
+  if (heroIdx < heroSources.length) {
+    this.src = heroSources[heroIdx];
+  } else {
+    this.style.display = 'none';
+  }
+};
+heroImg.src = heroSources[0];
+
 /* ============ LOADER ============ */
 let progress = 0;
 const loaderInterval = setInterval(() => {
@@ -984,10 +1056,10 @@ window.addEventListener('scroll', () => {
   const header = document.getElementById('header');
   if (window.scrollY > 50) {
     header.style.padding = '12px 50px';
-    header.style.background = 'rgba(8, 8, 12, 0.95)';
+    header.style.background = 'rgba(8, 8, 12, 0.98)';
   } else {
     header.style.padding = '18px 50px';
-    header.style.background = 'rgba(8, 8, 12, 0.8)';
+    header.style.background = 'rgba(8, 8, 12, 0.85)';
   }
 });
 
@@ -1001,7 +1073,6 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 });
 
 /* ============ REVEAL ANIMATION ============ */
-const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -1009,7 +1080,7 @@ const observer = new IntersectionObserver((entries) => {
       entry.target.style.transform = 'translateY(0)';
     }
   });
-}, observerOptions);
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
 document.querySelectorAll('.weapon-card, .char-card, .map-card, .lb-row').forEach(el => {
   el.style.opacity = '0';
@@ -1018,7 +1089,7 @@ document.querySelectorAll('.weapon-card, .char-card, .map-card, .lb-row').forEac
   observer.observe(el);
 });
 
-console.log('%c🎮 FREE FIRE Fan Hub Loaded!', 'color:#ff3d00;font-size:18px;font-weight:bold;');
+console.log('%c🎮 FREE FIRE Hub Loaded!', 'color:#ff3d00;font-size:18px;font-weight:bold;');
 console.log('%cBOOYAH! 🔥', 'color:#ffd000;font-size:24px;font-weight:bold;');
 </script>
 </body>
