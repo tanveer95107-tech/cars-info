@@ -3,1802 +3,1023 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AutoVerse 3D — Billionaire Car Showroom</title>
+<title>Free Fire — Battle Royale Esports Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: #000;
-    color: #fff;
-    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
-  body.loading { overflow: hidden; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-  /* ============= LOADER ============= */
-  #loader {
-    position: fixed; inset: 0;
-    background: #000;
-    z-index: 9999;
-    display: flex; flex-direction: column;
-    justify-content: center; align-items: center;
-    gap: 30px;
-    transition: opacity 0.8s ease;
-  }
-  .loader-logo {
-    font-size: 26px; font-weight: 200; letter-spacing: 12px;
-    color: #fff; text-transform: uppercase;
-    opacity: 0; animation: fadeUp 1s 0.2s forwards;
-  }
-  .loader-bar {
-    width: 280px; height: 1px;
-    background: rgba(255,255,255,0.1);
-    position: relative; overflow: hidden;
-  }
-  .loader-bar::after {
-    content: ''; position: absolute; inset: 0;
-    background: #fff;
-    transform-origin: left;
-    transform: scaleX(0);
-    animation: loadBar 2.2s ease-out forwards;
-  }
-  @keyframes loadBar { to { transform: scaleX(1); } }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); letter-spacing: 24px; }
-    to { opacity: 1; transform: translateY(0); letter-spacing: 12px; }
-  }
-  .loader-percent {
-    font-size: 11px; letter-spacing: 4px; color: #666;
-    opacity: 0; animation: fadeUp 1s 0.4s forwards;
-  }
+body {
+  background: #08080c;
+  color: #fff;
+  font-family: 'Rajdhani', sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
 
-  /* ============= HEADER ============= */
-  #header {
-    position: fixed; top: 0; left: 0; right: 0;
-    padding: 22px 50px;
-    display: flex; justify-content: space-between; align-items: center;
-    z-index: 1000;
-    transition: all 0.4s ease;
-    background: linear-gradient(180deg, rgba(0,0,0,0.6), transparent);
-  }
-  #header.solid {
-    background: rgba(0,0,0,0.85);
-    backdrop-filter: blur(20px);
-    padding: 16px 50px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-  .logo {
-    font-size: 15px; font-weight: 300; letter-spacing: 6px;
-    text-transform: uppercase;
-    cursor: pointer;
-  }
-  .logo span { font-weight: 700; }
-  nav { display: flex; gap: 40px; }
-  nav a {
-    font-size: 11px; font-weight: 500; letter-spacing: 3px;
-    text-transform: uppercase; color: #999;
-    text-decoration: none;
-    transition: color 0.3s;
-    position: relative;
-  }
-  nav a::after {
-    content: ''; position: absolute; bottom: -6px; left: 0;
-    width: 0; height: 1px; background: #fff;
-    transition: width 0.3s;
-  }
-  nav a:hover { color: #fff; }
-  nav a:hover::after { width: 100%; }
-  .header-counter {
-    font-size: 11px; letter-spacing: 3px; color: #666;
-  }
-  .header-counter strong { color: #fff; font-weight: 400; }
+/* ============ LOADER ============ */
+#loader {
+  position: fixed; inset: 0;
+  background: #08080c;
+  z-index: 9999;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  gap: 25px;
+  transition: opacity 0.8s ease;
+}
+.loader-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 42px; font-weight: 900;
+  background: linear-gradient(90deg, #ff3d00, #ff6b00, #ffd000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 6px;
+  animation: pulseGlow 1.5s infinite ease-in-out;
+}
+@keyframes pulseGlow {
+  0%, 100% { filter: drop-shadow(0 0 10px #ff3d00); }
+  50% { filter: drop-shadow(0 0 30px #ff6b00); }
+}
+.loader-bar {
+  width: 300px; height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 5px; overflow: hidden;
+}
+.loader-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, #ff3d00, #ffd000);
+  border-radius: 5px;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 15px #ff3d00;
+}
+.loader-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px; letter-spacing: 5px;
+  color: #666;
+}
 
-  /* ============= SIDE NAV DOTS ============= */
-  .side-nav {
-    position: fixed; right: 40px; top: 50%;
-    transform: translateY(-50%);
-    z-index: 900;
-    display: flex; flex-direction: column; gap: 18px;
-  }
-  .side-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: rgba(255,255,255,0.2);
-    cursor: pointer;
-    transition: all 0.4s ease;
-    position: relative;
-  }
-  .side-dot::after {
-    content: ''; position: absolute; inset: -6px;
-    border-radius: 50%; border: 1px solid transparent;
-    transition: all 0.4s ease;
-  }
-  .side-dot.active {
-    background: #fff;
-    transform: scale(1.5);
-  }
-  .side-dot.active::after {
-    border-color: rgba(255,255,255,0.3);
-  }
-  .side-dot:hover { background: #fff; }
+/* ============ HEADER ============ */
+header {
+  position: fixed; top: 0; left: 0; right: 0;
+  padding: 18px 50px;
+  display: flex; justify-content: space-between; align-items: center;
+  z-index: 1000;
+  background: rgba(8, 8, 12, 0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 61, 0, 0.15);
+  transition: all 0.3s;
+}
+.logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 22px; font-weight: 900;
+  background: linear-gradient(90deg, #ff3d00, #ffd000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 3px;
+  cursor: pointer;
+}
+nav { display: flex; gap: 35px; }
+nav a {
+  color: #aaa; text-decoration: none;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  position: relative; transition: color 0.3s;
+}
+nav a::after {
+  content: ''; position: absolute; bottom: -6px; left: 0;
+  width: 0; height: 2px;
+  background: linear-gradient(90deg, #ff3d00, #ffd000);
+  transition: width 0.3s;
+}
+nav a:hover { color: #fff; }
+nav a:hover::after { width: 100%; }
+.header-cta {
+  padding: 10px 25px;
+  background: linear-gradient(90deg, #ff3d00, #ff6b00);
+  border: none; border-radius: 4px;
+  color: #fff; font-family: 'Orbitron', sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+.header-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255, 61, 0, 0.5);
+}
 
-  /* ============= HERO ============= */
-  .hero {
-    position: relative;
-    height: 100vh;
-    display: flex; justify-content: center; align-items: center;
-    text-align: center;
-    overflow: hidden;
-  }
-  .hero-bg {
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at center, #1a1a1a 0%, #000 70%);
-  }
-  .hero-bg::after {
-    content: ''; position: absolute; inset: 0;
-    background-image: 
-      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-    background-size: 80px 80px;
-    mask-image: radial-gradient(circle at center, black 30%, transparent 70%);
-    -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 70%);
-  }
-  .hero-content {
-    position: relative; z-index: 2;
-    padding: 0 20px;
-  }
-  .hero-tag {
-    font-size: 10px; letter-spacing: 8px; color: #666;
-    text-transform: uppercase; margin-bottom: 30px;
-    opacity: 0; animation: fadeUp 1s 2.4s forwards;
-  }
-  .hero h1 {
-    font-size: clamp(48px, 9vw, 140px);
-    font-weight: 100;
-    line-height: 0.95;
-    letter-spacing: -3px;
-    margin-bottom: 30px;
-    opacity: 0;
-    animation: fadeUp 1.2s 2.5s forwards;
-  }
-  .hero h1 strong { font-weight: 700; display: block; }
-  .hero-sub {
-    font-size: 13px; letter-spacing: 4px; color: #888;
-    text-transform: uppercase; margin-bottom: 50px;
-    opacity: 0; animation: fadeUp 1s 2.8s forwards;
-  }
-  .scroll-hint {
-    position: absolute; bottom: 40px; left: 50%;
-    transform: translateX(-50%);
-    font-size: 10px; letter-spacing: 4px; color: #444;
-    text-transform: uppercase;
-    opacity: 0; animation: fadeUp 1s 3s forwards;
-  }
-  .scroll-hint::after {
-    content: ''; display: block; width: 1px; height: 40px;
-    background: linear-gradient(180deg, #444, transparent);
-    margin: 12px auto 0;
-    animation: scrollLine 2s infinite;
-  }
-  @keyframes scrollLine {
-    0% { transform: scaleY(0); transform-origin: top; }
-    50% { transform: scaleY(1); transform-origin: top; }
-    51% { transform-origin: bottom; }
-    100% { transform: scaleY(0); transform-origin: bottom; }
-  }
+/* ============ HERO ============ */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 120px 80px 60px;
+  position: relative;
+  overflow: hidden;
+  background: 
+    radial-gradient(circle at 80% 40%, rgba(255, 61, 0, 0.15), transparent 55%),
+    radial-gradient(circle at 20% 80%, rgba(255, 208, 0, 0.08), transparent 50%);
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 61, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 61, 0, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  mask-image: radial-gradient(circle at 60% 50%, black, transparent 75%);
+  -webkit-mask-image: radial-gradient(circle at 60% 50%, black, transparent 75%);
+}
+.hero-content { position: relative; z-index: 2; max-width: 700px; }
+.hero-tag {
+  display: inline-block;
+  padding: 8px 20px;
+  background: rgba(255, 61, 0, 0.12);
+  border: 1px solid rgba(255, 61, 0, 0.4);
+  border-radius: 4px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 4px; color: #ff6b00;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  animation: fadeUp 0.8s ease;
+}
+.hero h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(48px, 7vw, 100px);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -2px;
+  margin-bottom: 25px;
+  animation: fadeUp 1s ease 0.1s both;
+}
+.hero h1 span {
+  display: block;
+  background: linear-gradient(90deg, #ff3d00, #ffd000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero p {
+  font-size: 18px; color: #999;
+  line-height: 1.7; margin-bottom: 40px;
+  max-width: 550px;
+  animation: fadeUp 1s ease 0.2s both;
+}
+.hero-buttons {
+  display: flex; gap: 18px; flex-wrap: wrap;
+  animation: fadeUp 1s ease 0.3s both;
+}
+.btn-primary {
+  padding: 16px 42px;
+  background: linear-gradient(90deg, #ff3d00, #ff6b00);
+  border: none; border-radius: 4px;
+  color: #fff; font-family: 'Orbitron', sans-serif;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 3px; cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+.btn-primary:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(255, 61, 0, 0.5);
+}
+.btn-outline {
+  padding: 16px 42px;
+  background: transparent;
+  border: 1.5px solid rgba(255, 208, 0, 0.4);
+  border-radius: 4px;
+  color: #ffd000; font-family: 'Orbitron', sans-serif;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 3px; cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+.btn-outline:hover {
+  background: rgba(255, 208, 0, 0.1);
+  border-color: #ffd000;
+  transform: translateY(-4px);
+}
+.hero-3d {
+  position: absolute;
+  right: 5%; top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  animation: floatHero 5s infinite ease-in-out;
+}
+.hero-emoji {
+  font-size: 320px;
+  filter: drop-shadow(0 30px 60px rgba(255, 61, 0, 0.6));
+}
+@keyframes floatHero {
+  0%, 100% { transform: translateY(-50%) rotate(-5deg); }
+  50% { transform: translateY(-55%) rotate(5deg); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-  /* ============= MAIN SHOWROOM ============= */
-  .showroom {
-    position: relative;
-  }
-  .car-section {
-    position: relative;
-    height: 100vh;
-    display: flex;
-    overflow: hidden;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-  }
+/* ============ STATS BAR ============ */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(255, 61, 0, 0.15);
+  margin: 0 80px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  z-index: 3;
+}
+.stat-item {
+  background: #0d0d14;
+  padding: 35px 20px;
+  text-align: center;
+  transition: background 0.3s;
+}
+.stat-item:hover { background: #14141c; }
+.stat-item h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 36px; font-weight: 900;
+  background: linear-gradient(90deg, #ff3d00, #ffd000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 6px;
+}
+.stat-item p {
+  font-size: 11px; color: #666;
+  letter-spacing: 3px; text-transform: uppercase;
+  font-family: 'Orbitron', sans-serif;
+}
 
-  /* 3D Canvas */
-  .canvas-wrap {
-    position: absolute; inset: 0;
-    z-index: 1;
-  }
-  .canvas-wrap canvas { display: block; width: 100%; height: 100%; }
+/* ============ SECTION ============ */
+.section { padding: 100px 80px; }
+.section-title { text-align: center; margin-bottom: 60px; }
+.section-title h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 44px; font-weight: 900;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, #ff3d00, #ffd000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.section-title p { color: #777; font-size: 16px; letter-spacing: 1px; }
+.section-title .divider {
+  width: 80px; height: 3px;
+  background: linear-gradient(90deg, #ff3d00, #ffd000);
+  margin: 20px auto 0; border-radius: 3px;
+}
 
-  /* Info panel */
-  .info-panel {
-    position: relative;
-    z-index: 3;
-    width: 45%;
-    padding: 120px 80px 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    pointer-events: none;
-  }
-  .info-panel > * { pointer-events: auto; }
+/* ============ WEAPONS GRID ============ */
+.weapons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 22px;
+}
+.weapon-card {
+  background: linear-gradient(145deg, #14141c, #0a0a10);
+  border-radius: 14px;
+  padding: 28px 22px;
+  border: 1px solid rgba(255, 61, 0, 0.15);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.weapon-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 4px; height: 0;
+  background: linear-gradient(180deg, #ff3d00, #ffd000);
+  transition: height 0.4s;
+}
+.weapon-card:hover::before { height: 100%; }
+.weapon-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 61, 0, 0.5);
+  box-shadow: 0 25px 50px rgba(255, 61, 0, 0.25);
+}
+.weapon-tier {
+  position: absolute; top: 15px; right: 15px;
+  padding: 4px 12px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; border-radius: 4px;
+}
+.tier-god { background: rgba(255, 61, 0, 0.2); color: #ff3d00; border: 1px solid #ff3d00; }
+.tier-s { background: rgba(255, 208, 0, 0.15); color: #ffd000; border: 1px solid #ffd000; }
+.tier-a { background: rgba(0, 200, 255, 0.12); color: #00c8ff; border: 1px solid #00c8ff; }
+.weapon-emoji {
+  font-size: 60px; text-align: center;
+  display: block; margin: 20px 0 18px;
+  transition: transform 0.5s;
+}
+.weapon-card:hover .weapon-emoji { transform: scale(1.15) rotate(-8deg); }
+.weapon-card h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 20px; font-weight: 700;
+  margin-bottom: 6px; letter-spacing: 1px;
+}
+.weapon-card .weapon-class {
+  font-size: 12px; color: #ff6b00;
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+.weapon-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.w-stat {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.w-stat .label {
+  font-size: 9px; color: #666;
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.w-stat .val {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px; font-weight: 700;
+  color: #ffd000;
+}
 
-  .car-number {
-    font-size: 11px; letter-spacing: 6px; color: #555;
-    margin-bottom: 25px;
-    text-transform: uppercase;
-  }
-  .car-brand {
-    font-size: 13px; letter-spacing: 6px;
-    color: #888; text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-  .car-name {
-    font-size: clamp(38px, 4.5vw, 72px);
-    font-weight: 200;
-    line-height: 1;
-    letter-spacing: -2px;
-    margin-bottom: 25px;
-  }
-  .car-name strong { font-weight: 700; }
-  .car-tagline {
-    font-size: 14px;
-    color: #888;
-    line-height: 1.7;
-    max-width: 420px;
-    margin-bottom: 45px;
-    font-weight: 300;
-  }
-  .car-specs-row {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 22px 30px;
-    max-width: 480px;
-    margin-bottom: 45px;
-  }
-  .spec-item {
-    border-left: 1px solid rgba(255,255,255,0.15);
-    padding-left: 14px;
-  }
-  .spec-item .label {
-    font-size: 9px; letter-spacing: 3px;
-    color: #555; text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-  .spec-item .value {
-    font-size: 18px; font-weight: 300;
-    letter-spacing: -0.5px;
-    color: #fff;
-  }
-  .spec-item .value small {
-    font-size: 11px; color: #666; margin-left: 3px;
-  }
-  .inspect-btn {
-    align-self: flex-start;
-    padding: 16px 40px;
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.3);
-    color: #fff;
-    font-size: 11px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
-    font-weight: 500;
-  }
-  .inspect-btn::before {
-    content: ''; position: absolute; inset: 0;
-    background: #fff;
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform 0.5s cubic-bezier(0.85, 0, 0.15, 1);
-    z-index: -1;
-  }
-  .inspect-btn:hover {
-    color: #000;
-    border-color: #fff;
-  }
-  .inspect-btn:hover::before {
-    transform: scaleX(1);
-    transform-origin: left;
-  }
+/* ============ CHARACTERS GRID ============ */
+.characters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 22px;
+}
+.char-card {
+  background: linear-gradient(145deg, #14141c, #0a0a10);
+  border-radius: 14px;
+  padding: 25px 22px;
+  border: 1px solid rgba(255, 208, 0, 0.12);
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+.char-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 208, 0, 0.5);
+  box-shadow: 0 25px 50px rgba(255, 208, 0, 0.15);
+}
+.char-avatar {
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  display: flex; align-items: center;
+  justify-content: center;
+  font-size: 38px;
+  background: linear-gradient(135deg, rgba(255, 61, 0, 0.2), rgba(255, 208, 0, 0.15));
+  border: 2px solid rgba(255, 208, 0, 0.3);
+  margin-bottom: 18px;
+}
+.char-card h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px; font-weight: 700;
+  margin-bottom: 4px; letter-spacing: 1px;
+}
+.char-card .char-role {
+  font-size: 11px; color: #ff6b00;
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 14px; font-weight: 600;
+}
+.char-card .char-ability {
+  font-size: 13px; color: #999;
+  line-height: 1.6;
+}
+.char-card .char-ability strong { color: #ffd000; }
 
-  /* Right panel — car color preview / brand info */
-  .brand-panel {
-    position: absolute;
-    right: 80px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 3;
-    text-align: right;
-    pointer-events: none;
-  }
-  .brand-logo {
-    font-size: 90px;
-    font-weight: 100;
-    letter-spacing: 8px;
-    opacity: 0.04;
-    line-height: 1;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-  .car-emoji-bg {
-    position: absolute;
-    right: 60px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 380px;
-    opacity: 0.015;
-    pointer-events: none;
-    z-index: 0;
-    filter: blur(2px);
-  }
+/* ============ MAPS SECTION ============ */
+.maps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+.map-card {
+  position: relative;
+  height: 320px;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.4s;
+  border: 1px solid rgba(255, 61, 0, 0.2);
+}
+.map-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 30px 60px rgba(255, 61, 0, 0.3);
+}
+.map-card .map-bg {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s;
+}
+.map-card:hover .map-bg { transform: scale(1.1); }
+.map-bermuda { background: linear-gradient(135deg, #1a4a1a, #0d2d0d, #2d5a2d); }
+.map-purgatory { background: linear-gradient(135deg, #4a2a1a, #2d1a0d, #5a3a2d); }
+.map-kalahari { background: linear-gradient(135deg, #5a4a1a, #3d2d0d, #6a5a2d); }
+.map-card .map-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(8, 8, 12, 0.95) 100%);
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 28px 24px;
+  z-index: 2;
+}
+.map-card h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 26px; font-weight: 900;
+  letter-spacing: 2px; margin-bottom: 6px;
+}
+.map-card .map-type {
+  font-size: 11px; color: #ff6b00;
+  letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 10px; font-weight: 600;
+}
+.map-card p {
+  font-size: 13px; color: #999;
+  line-height: 1.5;
+}
 
-  /* ============= FULLSCREEN 3D INSPECTION ============= */
-  .inspector {
-    position: fixed;
-    inset: 0;
-    background: #000;
-    z-index: 3000;
-    display: none;
-    opacity: 0;
-    transition: opacity 0.6s ease;
-  }
-  .inspector.active {
-    display: block;
-    opacity: 1;
-  }
-  .inspector canvas {
-    position: absolute; inset: 0;
-    width: 100% !important; height: 100% !important;
-    display: block;
-  }
-  .inspector-ui {
-    position: absolute; inset: 0;
-    z-index: 2;
-    pointer-events: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 50px;
-  }
-  .inspector-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    pointer-events: auto;
-  }
-  .inspector-close {
-    width: 50px; height: 50px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.15);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; color: #fff;
-    cursor: pointer;
-    transition: all 0.3s;
-    backdrop-filter: blur(10px);
-  }
-  .inspector-close:hover {
-    background: #fff; color: #000;
-    transform: rotate(90deg);
-  }
-  .inspector-title {
-    font-size: 12px;
-    letter-spacing: 4px;
-    color: #888;
-    text-transform: uppercase;
-  }
-  .inspector-title strong {
-    display: block;
-    font-size: 26px;
-    font-weight: 300;
-    color: #fff;
-    letter-spacing: -0.5px;
-    margin-top: 8px;
-    text-transform: none;
-  }
-  .inspector-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    pointer-events: auto;
-    gap: 40px;
-  }
-  .part-info {
-    flex: 1;
-    max-width: 500px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.1);
-    backdrop-filter: blur(20px);
-    border-radius: 4px;
-    padding: 24px 28px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.4s ease;
-  }
-  .part-info.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .part-info .part-label {
-    font-size: 9px;
-    letter-spacing: 4px;
-    color: #666;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .part-info .part-title {
-    font-size: 22px;
-    font-weight: 300;
-    margin-bottom: 12px;
-    letter-spacing: -0.5px;
-  }
-  .part-info .part-desc {
-    font-size: 13px;
-    color: #999;
-    line-height: 1.7;
-    font-weight: 300;
-  }
-  .inspector-hint {
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: #444;
-    text-transform: uppercase;
-    text-align: right;
-    line-height: 2;
-  }
-  .inspector-hint span { color: #888; }
+/* ============ ESPORTS SECTION ============ */
+.esports {
+  padding: 100px 80px;
+  background: radial-gradient(circle at center, rgba(255, 61, 0, 0.06), transparent 70%);
+  border-top: 1px solid rgba(255, 61, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 61, 0, 0.1);
+}
+.prize-pool {
+  text-align: center;
+  margin-bottom: 60px;
+}
+.prize-pool .amount {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(60px, 10vw, 130px);
+  font-weight: 900;
+  background: linear-gradient(90deg, #ff3d00, #ffd000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+  letter-spacing: -3px;
+  filter: drop-shadow(0 0 40px rgba(255, 61, 0, 0.4));
+}
+.prize-pool .label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px; letter-spacing: 6px;
+  color: #666; text-transform: uppercase;
+  margin-top: 10px;
+}
+.leaderboard {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #0d0d14;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 61, 0, 0.15);
+}
+.lb-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 140px 120px;
+  padding: 18px 28px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  align-items: center;
+  transition: background 0.3s;
+}
+.lb-row:hover { background: rgba(255, 61, 0, 0.05); }
+.lb-row:last-child { border-bottom: none; }
+.lb-row.header {
+  background: rgba(255, 61, 0, 0.1);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px; letter-spacing: 2px;
+  color: #ff6b00; text-transform: uppercase;
+  font-weight: 700;
+}
+.lb-rank {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 22px; font-weight: 900;
+  color: #ff3d00;
+}
+.lb-rank.gold { color: #ffd000; }
+.lb-rank.silver { color: #ccc; }
+.lb-rank.bronze { color: #cd7f32; }
+.lb-team {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px; font-weight: 700;
+  letter-spacing: 1px;
+}
+.lb-prize {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px; font-weight: 700;
+  color: #ffd000;
+}
+.lb-points {
+  font-size: 13px; color: #888;
+  text-align: right;
+}
 
-  /* ============= ABOUT ============= */
-  .about {
-    padding: 140px 80px;
-    text-align: center;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    background: #000;
-  }
-  .about-label {
-    font-size: 10px; letter-spacing: 6px;
-    color: #555; text-transform: uppercase;
-    margin-bottom: 30px;
-  }
-  .about h2 {
-    font-size: clamp(32px, 4vw, 56px);
-    font-weight: 200;
-    letter-spacing: -1.5px;
-    margin-bottom: 30px;
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.15;
-  }
-  .about h2 strong { font-weight: 700; }
-  .about > p {
-    max-width: 620px;
-    margin: 0 auto 80px;
-    color: #777;
-    font-size: 15px;
-    line-height: 1.8;
-    font-weight: 300;
-  }
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1px;
-    background: rgba(255,255,255,0.06);
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .feature {
-    background: #000;
-    padding: 60px 30px;
-    text-align: left;
-    transition: background 0.4s;
-  }
-  .feature:hover { background: #0a0a0a; }
-  .feature-num {
-    font-size: 11px; letter-spacing: 3px;
-    color: #444; margin-bottom: 40px;
-  }
-  .feature h4 {
-    font-size: 18px; font-weight: 300;
-    margin-bottom: 14px;
-    letter-spacing: -0.3px;
-  }
-  .feature p {
-    font-size: 13px; color: #666;
-    line-height: 1.7; font-weight: 300;
-  }
+/* ============ CTA ============ */
+.cta-section {
+  padding: 120px 80px;
+  text-align: center;
+  background: linear-gradient(180deg, transparent, rgba(255, 61, 0, 0.05));
+}
+.cta-section h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(32px, 5vw, 60px);
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+}
+.cta-section h2 span {
+  background: linear-gradient(90deg, #ff3d00, #ffd000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.cta-section p {
+  color: #888; font-size: 17px;
+  max-width: 550px; margin: 0 auto 45px;
+}
+.download-buttons {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.store-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 32px;
+  background: #0d0d14;
+  border: 1px solid rgba(255, 61, 0, 0.3);
+  border-radius: 10px;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+.store-btn:hover {
+  background: rgba(255, 61, 0, 0.1);
+  border-color: #ff3d00;
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px rgba(255, 61, 0, 0.3);
+}
+.store-btn .store-icon { font-size: 28px; }
+.store-btn .store-text {
+  text-align: left;
+}
+.store-btn .store-text small {
+  display: block; font-size: 10px;
+  color: #888; letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.store-btn .store-text strong {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 15px; font-weight: 700;
+  letter-spacing: 1px;
+}
 
-  /* ============= FOOTER ============= */
-  footer {
-    padding: 60px 80px 40px;
-    background: #000;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  footer .foot-logo {
-    font-size: 13px; letter-spacing: 6px;
-    text-transform: uppercase;
-    font-weight: 300;
-  }
-  footer .foot-logo strong { font-weight: 700; }
-  footer p {
-    font-size: 11px; color: #555;
-    letter-spacing: 2px;
-  }
+/* ============ FOOTER ============ */
+footer {
+  padding: 50px 80px 30px;
+  background: #050508;
+  border-top: 1px solid rgba(255, 61, 0, 0.1);
+  text-align: center;
+}
+footer .foot-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 20px; font-weight: 900;
+  background: linear-gradient(90deg, #ff3d00, #ffd000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 3px;
+  margin-bottom: 15px;
+}
+footer p { color: #555; font-size: 13px; line-height: 2; }
+footer .foot-links {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+footer .foot-links a {
+  color: #777; text-decoration: none;
+  font-size: 12px; letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+footer .foot-links a:hover { color: #ff3d00; }
 
-  /* ============= RESPONSIVE ============= */
-  @media (max-width: 1000px) {
-    #header { padding: 16px 25px; }
-    #header.solid { padding: 12px 25px; }
-    nav { display: none; }
-    .info-panel {
-      width: 100%;
-      padding: 100px 30px 60px;
-      justify-content: flex-end;
-      padding-bottom: 80px;
-    }
-    .car-section { height: 100vh; }
-    .info-panel { background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.95) 75%); }
-    .brand-panel { display: none; }
-    .car-emoji-bg { font-size: 200px; right: -20px; }
-    .side-nav { right: 15px; }
-    .inspector-ui { padding: 25px; }
-    .inspector-bottom { flex-direction: column; align-items: stretch; }
-    .inspector-hint { text-align: left; }
-    .about { padding: 80px 30px; }
-    footer { padding: 40px 30px; flex-direction: column; text-align: center; }
-  }
-  @media (max-width: 500px) {
-    .car-specs-row { grid-template-columns: 1fr 1fr; gap: 16px; }
-    .spec-item .value { font-size: 15px; }
-    .car-name { letter-spacing: -1px; }
-    .info-panel { padding: 80px 22px 60px; }
-    .inspect-btn { padding: 14px 30px; font-size: 10px; }
-  }
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1000px) {
+  header { padding: 15px 25px; }
+  nav { display: none; }
+  .hero { padding: 120px 30px 60px; }
+  .hero-3d { opacity: 0.15; right: -10%; }
+  .hero-emoji { font-size: 200px; }
+  .stats-bar { margin: 0 30px; grid-template-columns: repeat(2, 1fr); }
+  .section { padding: 70px 30px; }
+  .esports { padding: 70px 30px; }
+  .cta-section { padding: 80px 30px; }
+  footer { padding: 40px 30px 25px; }
+  .lb-row { grid-template-columns: 45px 1fr 100px; padding: 15px 18px; }
+  .lb-points { display: none; }
+  .section-title h2 { font-size: 32px; }
+}
+@media (max-width: 500px) {
+  .hero h1 { font-size: 38px; }
+  .hero p { font-size: 15px; }
+  .btn-primary, .btn-outline { padding: 14px 28px; font-size: 10px; }
+  .weapons-grid, .characters-grid { grid-template-columns: 1fr; }
+  .stat-item h3 { font-size: 26px; }
+  .lb-team { font-size: 13px; }
+  .lb-prize { font-size: 12px; }
+  .prize-pool .amount { font-size: 60px; }
+}
 </style>
 </head>
-<body class="loading">
+<body>
 
-<!-- ========== LOADER ========== -->
+<!-- LOADER -->
 <div id="loader">
-  <div class="loader-logo">Auto<span>Verse</span></div>
-  <div class="loader-bar"></div>
-  <div class="loader-percent">PREPARING SHOWROOM</div>
+  <div class="loader-logo">FREE FIRE</div>
+  <div class="loader-bar"><div class="loader-fill" id="loaderFill"></div></div>
+  <div class="loader-text" id="loaderText">LOADING ARSENAL</div>
 </div>
 
-<!-- ========== HEADER ========== -->
+<!-- HEADER -->
 <header id="header">
-  <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">Auto<span>Verse</span></div>
+  <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">FREE FIRE</div>
   <nav>
-    <a href="#showroom">Showroom</a>
-    <a href="#about">About</a>
+    <a href="#weapons">Weapons</a>
+    <a href="#characters">Characters</a>
+    <a href="#maps">Maps</a>
+    <a href="#esports">Esports</a>
   </nav>
-  <div class="header-counter">CAR <strong id="carCounter">01</strong> / 10</div>
+  <button class="header-cta" onclick="document.getElementById('download').scrollIntoView()">Download</button>
 </header>
 
-<!-- ========== SIDE NAV ========== -->
-<div class="side-nav" id="sideNav"></div>
-
-<!-- ========== HERO ========== -->
-<section class="hero" id="home">
-  <div class="hero-bg"></div>
+<!-- HERO -->
+<section class="hero">
   <div class="hero-content">
-    <div class="hero-tag">The Billionaire Collection</div>
-    <h1>Drive the<strong>Extraordinary</strong></h1>
-    <div class="hero-sub">Ten Icons · One Showroom · Infinite Detail</div>
+    <div class="hero-tag">🎮 Battle Royale Mobile Shooter</div>
+    <h1>BOOYAH <span>OR NOTHING</span></h1>
+    <p>10 minute matches. 50 players. One survivor. Drop in, loot up, and fight to be the last one standing in the world's most accessible battle royale.</p>
+    <div class="hero-buttons">
+      <button class="btn-primary" onclick="document.getElementById('download').scrollIntoView()">Play Free Now</button>
+      <button class="btn-outline" onclick="document.getElementById('weapons').scrollIntoView()">View Arsenal</button>
+    </div>
   </div>
-  <div class="scroll-hint">Scroll to enter</div>
-</section>
-
-<!-- ========== SHOWROOM ========== -->
-<div class="showroom" id="showroom"></div>
-
-<!-- ========== ABOUT ========== -->
-<section class="about" id="about">
-  <div class="about-label">The Experience</div>
-  <h2>A showroom built for those who <strong>demand more</strong></h2>
-  <p>Every vehicle is rendered in real-time 3D. Rotate, zoom, and inspect every curve, every wheel, every detail — exactly as if you were standing beside it.</p>
-  <div class="features-grid">
-    <div class="feature">
-      <div class="feature-num">01</div>
-      <h4>Real-Time 3D</h4>
-      <p>Powered by WebGL and Three.js for photorealistic real-time rendering.</p>
-    </div>
-    <div class="feature">
-      <div class="feature-num">02</div>
-      <h4>Full Inspection</h4>
-      <p>Hover over wheels, lights, bodywork — every part comes alive with detail.</p>
-    </div>
-    <div class="feature">
-      <div class="feature-num">03</div>
-      <h4>Cinematic Scroll</h4>
-      <p>Each car gets its own cinematic stage as you scroll through the collection.</p>
-    </div>
-    <div class="feature">
-      <div class="feature-num">04</div>
-      <h4>Curated Icons</h4>
-      <p>Ten of the most desirable machines ever engineered, hand-picked.</p>
-    </div>
+  <div class="hero-3d">
+    <div class="hero-emoji">🎯</div>
   </div>
 </section>
 
-<!-- ========== FOOTER ========== -->
-<footer>
-  <div class="foot-logo">Auto<strong>Verse</strong> 3D</div>
-  <p>© 2024 — A Billionaire's Showroom</p>
-</footer>
-
-<!-- ========== FULLSCREEN INSPECTOR ========== -->
-<div class="inspector" id="inspector">
-  <div class="inspector-ui">
-    <div class="inspector-top">
-      <div class="inspector-title">
-        Inspecting
-        <strong id="inspTitle">Car</strong>
-      </div>
-      <div class="inspector-close" onclick="closeInspector()">✕</div>
-    </div>
-    <div class="inspector-bottom">
-      <div class="part-info" id="partInfo">
-        <div class="part-label">Component</div>
-        <div class="part-title" id="partTitle">Hover over a part</div>
-        <div class="part-desc" id="partDesc">Move your cursor over the car to inspect each component in real-time 3D.</div>
-      </div>
-      <div class="inspector-hint">
-        <span>Drag</span> to rotate<br>
-        <span>Scroll</span> to zoom<br>
-        <span>Hover</span> to inspect
-      </div>
-    </div>
-  </div>
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item"><h3>1B+</h3><p>Downloads</p></div>
+  <div class="stat-item"><h3>10 MIN</h3><p>Per Match</p></div>
+  <div class="stat-item"><h3>50</h3><p>Players</p></div>
+  <div class="stat-item"><h3>$1M+</h3><p>Prize Pools</p></div>
 </div>
 
-<!-- ========== THREE.JS ========== -->
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
-  }
-}
-</script>
-
-<script type="module">
-import * as THREE from 'three';
-
-/* =========================================================
-   CAR DATA — 10 ICONS
-========================================================= */
-const CARS = [
-  {
-    brand: 'Ferrari', model: 'SF90 Stradale', type: 'Hypercar',
-    tagline: 'A thousand horsepower of hybrid Italian fury. The most powerful Ferrari road car ever built.',
-    color: 0xc8102e, accent: 0xff2244,
-    engine: '4.0L V8 Hybrid', power: '986', powerUnit: 'HP',
-    speed: '340', speedUnit: 'km/h', accel: '2.5', accelUnit: 's',
-    price: '$625,000', year: '2024'
-  },
-  {
-    brand: 'Lamborghini', model: 'Aventador SVJ', type: 'Hypercar',
-    tagline: 'The last naturally aspirated V12 Lamborghini. Raw, brutal, and breathtakingly fast.',
-    color: 0x2d6a2d, accent: 0x66ff66,
-    engine: '6.5L V12', power: '770', powerUnit: 'HP',
-    speed: '350', speedUnit: 'km/h', accel: '2.8', accelUnit: 's',
-    price: '$520,000', year: '2023'
-  },
-  {
-    brand: 'Bugatti', model: 'Chiron Super Sport', type: 'Hypercar',
-    tagline: 'A 1,578 horsepower W16 masterpiece. The absolute pinnacle of automotive engineering.',
-    color: 0x0a2a5e, accent: 0x3388ff,
-    engine: '8.0L W16 Quad-Turbo', power: '1578', powerUnit: 'HP',
-    speed: '440', speedUnit: 'km/h', accel: '2.4', accelUnit: 's',
-    price: '$3,900,000', year: '2024'
-  },
-  {
-    brand: 'McLaren', model: '720S', type: 'Supercar',
-    tagline: 'Carbon-fiber monocoque, dihedral doors, and a relentless twin-turbo V8 heart.',
-    color: 0xe07800, accent: 0xffb84d,
-    engine: '4.0L V8 Twin-Turbo', power: '710', powerUnit: 'HP',
-    speed: '341', speedUnit: 'km/h', accel: '2.9', accelUnit: 's',
-    price: '$310,000', year: '2023'
-  },
-  {
-    brand: 'Porsche', model: '911 Turbo S', type: 'Sports Car',
-    tagline: 'The benchmark. Every generation refines the formula. This one perfects it.',
-    color: 0xe8b923, accent: 0xffdd66,
-    engine: '3.8L Flat-6 Turbo', power: '650', powerUnit: 'HP',
-    speed: '330', speedUnit: 'km/h', accel: '2.7', accelUnit: 's',
-    price: '$230,000', year: '2024'
-  },
-  {
-    brand: 'Audi', model: 'R8 V10 Performance', type: 'Supercar',
-    tagline: 'The final chapter of a naturally aspirated legend. A V10 howl that will never return.',
-    color: 0x00a8b8, accent: 0x33e0f0,
-    engine: '5.2L V10', power: '620', powerUnit: 'HP',
-    speed: '331', speedUnit: 'km/h', accel: '3.1', accelUnit: 's',
-    price: '$210,000', year: '2024'
-  },
-  {
-    brand: 'Mercedes-AMG', model: 'GT 63 S', type: 'Grand Tourer',
-    tagline: 'Four doors, 630 horsepower, and a soundtrack that never stops thrilling.',
-    color: 0x5a1e7a, accent: 0xb060e0,
-    engine: '4.0L V8 Biturbo', power: '630', powerUnit: 'HP',
-    speed: '315', speedUnit: 'km/h', accel: '3.2', accelUnit: 's',
-    price: '$180,000', year: '2024'
-  },
-  {
-    brand: 'BMW', model: 'M5 Competition', type: 'Sedan',
-    tagline: 'The supercar you can drive every day. Track-tuned luxury at its absolute finest.',
-    color: 0x0b3d91, accent: 0x4488ff,
-    engine: '4.4L V8 Twin-Turbo', power: '625', powerUnit: 'HP',
-    speed: '305', speedUnit: 'km/h', accel: '3.3', accelUnit: 's',
-    price: '$115,000', year: '2024'
-  },
-  {
-    brand: 'Tesla', model: 'Model S Plaid', type: 'Electric',
-    tagline: 'The quickest production car ever made. 1,020 horsepower of silent, instant torque.',
-    color: 0x1a1a1a, accent: 0x666666,
-    engine: 'Tri-Motor Electric', power: '1020', powerUnit: 'HP',
-    speed: '322', speedUnit: 'km/h', accel: '1.99', accelUnit: 's',
-    price: '$135,000', year: '2024'
-  },
-  {
-    brand: 'Range Rover', model: 'Sport SV', type: 'SUV',
-    tagline: 'An SUV that defies physics. 626 horsepower wrapped in British luxury.',
-    color: 0x2b2b2b, accent: 0x777777,
-    engine: '4.4L V8 Twin-Turbo', power: '626', powerUnit: 'HP',
-    speed: '290', speedUnit: 'km/h', accel: '3.6', accelUnit: 's',
-    price: '$185,000', year: '2024'
-  }
-];
-
-/* =========================================================
-   THREE.JS SETUP HELPER
-========================================================= */
-function createRenderer(container, opts = {}) {
-  const renderer = new THREE.WebGLRenderer({ 
-    antialias: true, 
-    alpha: true,
-    powerPreference: 'high-performance'
-  });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(container.clientWidth, container.clientHeight);
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.1;
-  container.appendChild(renderer.domElement);
-  return renderer;
-}
-
-/* =========================================================
-   BUILD A REALISTIC 3D CAR
-========================================================= */
-function buildCar(carData) {
-  const group = new THREE.Group();
-  const bodyColor = carData.color;
-  const accentColor = carData.accent;
-
-  // Materials
-  const bodyMat = new THREE.MeshPhysicalMaterial({
-    color: bodyColor,
-    metalness: 0.9,
-    roughness: 0.25,
-    clearcoat: 1,
-    clearcoatRoughness: 0.1,
-    reflectivity: 1,
-    envMapIntensity: 1.2
-  });
-
-  const darkMat = new THREE.MeshStandardMaterial({
-    color: 0x0a0a0a, metalness: 0.6, roughness: 0.4
-  });
-  const glassMat = new THREE.MeshPhysicalMaterial({
-    color: 0x111122, metalness: 0.4, roughness: 0.05,
-    transmission: 0.9, transparent: true, opacity: 0.7,
-    envMapIntensity: 2
-  });
-  const chromeMat = new THREE.MeshStandardMaterial({
-    color: 0xdddddd, metalness: 1, roughness: 0.15
-  });
-  const tireMat = new THREE.MeshStandardMaterial({
-    color: 0x111111, metalness: 0.1, roughness: 0.95
-  });
-  const rimMat = new THREE.MeshStandardMaterial({
-    color: 0xcccccc, metalness: 1, roughness: 0.2
-  });
-  const headlightMat = new THREE.MeshPhysicalMaterial({
-    color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 3,
-    metalness: 0.5, roughness: 0.1
-  });
-  const taillightMat = new THREE.MeshPhysicalMaterial({
-    color: accentColor, emissive: accentColor, emissiveIntensity: 2.5,
-    metalness: 0.5, roughness: 0.2
-  });
-
-  /* ---------- MAIN BODY (layered boxes for realistic car shape) ---------- */
-  // Lower chassis
-  const chassis = new THREE.Mesh(
-    new THREE.BoxGeometry(2.6, 0.55, 5.4),
-    bodyMat
-  );
-  chassis.position.y = 0.55;
-  chassis.castShadow = true;
-  chassis.receiveShadow = true;
-  group.add(chassis);
-
-  // Mid body (wider, sculpted)
-  const midBody = new THREE.Mesh(
-    new THREE.BoxGeometry(2.5, 0.5, 4.6),
-    bodyMat
-  );
-  midBody.position.y = 1.0;
-  midBody.castShadow = true;
-  group.add(midBody);
-
-  // Hood (front — lower)
-  const hood = new THREE.Mesh(
-    new THREE.BoxGeometry(2.35, 0.28, 1.8),
-    bodyMat
-  );
-  hood.position.set(0, 1.35, -1.85);
-  hood.castShadow = true;
-  group.add(hood);
-
-  // Hood slope (front wedge)
-  const hoodSlope = new THREE.Mesh(
-    new THREE.BoxGeometry(2.35, 0.15, 0.9),
-    bodyMat
-  );
-  hoodSlope.position.set(0, 1.28, -2.85);
-  hoodSlope.rotation.x = -0.15;
-  hoodSlope.castShadow = true;
-  group.add(hoodSlope);
-
-  // Cabin / roof
-  const cabin = new THREE.Mesh(
-    new THREE.BoxGeometry(2.1, 0.55, 2.4),
-    bodyMat
-  );
-  cabin.position.set(0, 1.75, 0.35);
-  cabin.castShadow = true;
-  group.add(cabin);
-
-  // Roof top (slightly smaller, floating)
-  const roof = new THREE.Mesh(
-    new THREE.BoxGeometry(1.85, 0.12, 2.1),
-    bodyMat
-  );
-  roof.position.set(0, 2.08, 0.3);
-  roof.castShadow = true;
-  group.add(roof);
-
-  // Windshield
-  const windshield = new THREE.Mesh(
-    new THREE.BoxGeometry(1.95, 0.04, 1.4),
-    glassMat
-  );
-  windshield.position.set(0, 1.75, -0.85);
-  windshield.rotation.x = 0.5;
-  group.add(windshield);
-
-  // Side windows (left)
-  const sideWinL = new THREE.Mesh(
-    new THREE.BoxGeometry(0.04, 0.5, 1.9),
-    glassMat
-  );
-  sideWinL.position.set(-1.05, 1.72, 0.35);
-  group.add(sideWinL);
-
-  // Side windows (right)
-  const sideWinR = new THREE.Mesh(
-    new THREE.BoxGeometry(0.04, 0.5, 1.9),
-    glassMat
-  );
-  sideWinR.position.set(1.05, 1.72, 0.35);
-  group.add(sideWinR);
-
-  // Rear window
-  const rearWin = new THREE.Mesh(
-    new THREE.BoxGeometry(1.85, 0.04, 1.0),
-    glassMat
-  );
-  rearWin.position.set(0, 1.78, 1.4);
-  rearWin.rotation.x = -0.55;
-  group.add(rearWin);
-
-  // Rear deck (trunk)
-  const trunk = new THREE.Mesh(
-    new THREE.BoxGeometry(2.4, 0.3, 1.4),
-    bodyMat
-  );
-  trunk.position.set(0, 1.35, 2.0);
-  trunk.castShadow = true;
-  group.add(trunk);
-
-  // Rear bumper
-  const rearBumper = new THREE.Mesh(
-    new THREE.BoxGeometry(2.5, 0.35, 0.4),
-    bodyMat
-  );
-  rearBumper.position.set(0, 0.65, 2.65);
-  group.add(rearBumper);
-
-  // Front bumper
-  const frontBumper = new THREE.Mesh(
-    new THREE.BoxGeometry(2.5, 0.4, 0.5),
-    bodyMat
-  );
-  frontBumper.position.set(0, 0.6, -2.9);
-  group.add(frontBumper);
-
-  // Front splitter / grill
-  const grill = new THREE.Mesh(
-    new THREE.BoxGeometry(1.8, 0.25, 0.15),
-    darkMat
-  );
-  grill.position.set(0, 0.55, -3.18);
-  group.add(grill);
-
-  // Side skirts
-  const skirtL = new THREE.Mesh(
-    new THREE.BoxGeometry(0.15, 0.15, 3.6),
-    darkMat
-  );
-  skirtL.position.set(-1.28, 0.4, 0);
-  group.add(skirtL);
-
-  const skirtR = new THREE.Mesh(
-    new THREE.BoxGeometry(0.15, 0.15, 3.6),
-    darkMat
-  );
-  skirtR.position.set(1.28, 0.4, 0);
-  group.add(skirtR);
-
-  // Rear wing
-  const wingPost1 = new THREE.Mesh(
-    new THREE.BoxGeometry(0.08, 0.4, 0.08),
-    darkMat
-  );
-  wingPost1.position.set(-0.7, 1.65, 2.55);
-  group.add(wingPost1);
-
-  const wingPost2 = new THREE.Mesh(
-    new THREE.BoxGeometry(0.08, 0.4, 0.08),
-    darkMat
-  );
-  wingPost2.position.set(0.7, 1.65, 2.55);
-  group.add(wingPost2);
-
-  const wing = new THREE.Mesh(
-    new THREE.BoxGeometry(2.0, 0.06, 0.4),
-    bodyMat
-  );
-  wing.position.set(0, 1.85, 2.55);
-  group.add(wing);
-
-  /* ---------- WHEELS ---------- */
-  const wheels = [];
-  const wheelPositions = [
-    { x: -1.35, z: -1.9, name: 'Front Left Wheel' },
-    { x: 1.35, z: -1.9, name: 'Front Right Wheel' },
-    { x: -1.35, z: 1.9, name: 'Rear Left Wheel' },
-    { x: 1.35, z: 1.9, name: 'Rear Right Wheel' }
-  ];
-
-  const wheelInfo = [
-    'Front Left Wheel — 19" forged alloy rim, 245/40 R19 tire, ventilated disc brake with ABS.',
-    'Front Right Wheel — 19" forged alloy rim, 245/40 R19 tire, ventilated disc brake with ABS.',
-    'Rear Left Wheel — 19" forged alloy rim, 255/40 R19 tire, wider for traction.',
-    'Rear Right Wheel — 19" forged alloy rim, 255/40 R19 tire, wider for traction.'
-  ];
-
-  wheelPositions.forEach((pos, i) => {
-    const wheelGroup = new THREE.Group();
-    wheelGroup.position.set(pos.x, 0.42, pos.z);
-
-    // Tire
-    const tire = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.42, 0.42, 0.28, 32),
-      tireMat
-    );
-    tire.rotation.z = Math.PI / 2;
-    tire.castShadow = true;
-    wheelGroup.add(tire);
-
-    // Rim
-    const rim = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.28, 0.28, 0.3, 32),
-      rimMat
-    );
-    rim.rotation.z = Math.PI / 2;
-    wheelGroup.add(rim);
-
-    // Rim center
-    const center = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.08, 0.08, 0.32, 16),
-      chromeMat
-    );
-    center.rotation.z = Math.PI / 2;
-    wheelGroup.add(center);
-
-    // Spokes
-    for (let s = 0; s < 5; s++) {
-      const spoke = new THREE.Mesh(
-        new THREE.BoxGeometry(0.05, 0.5, 0.05),
-        rimMat
-      );
-      spoke.rotation.x = (s / 5) * Math.PI * 2;
-      spoke.position.z = 0.16;
-      wheelGroup.add(spoke);
-    }
-
-    wheelGroup.userData = {
-      part: 'wheel',
-      title: pos.name,
-      desc: wheelInfo[i],
-      isWheel: true,
-      spin: 0
-    };
-
-    // Make all children point to the group's userData
-    wheelGroup.traverse(child => {
-      if (child.isMesh) child.userData.parentRef = wheelGroup;
-    });
-
-    wheels.push(wheelGroup);
-    group.add(wheelGroup);
-  });
-
-  /* ---------- HEADLIGHTS ---------- */
-  const headlightL = new THREE.Mesh(
-    new THREE.BoxGeometry(0.5, 0.15, 0.1),
-    headlightMat
-  );
-  headlightL.position.set(-0.85, 1.0, -3.05);
-  headlightL.userData = {
-    part: 'headlight',
-    title: 'Left Headlight',
-    desc: 'Full-LED matrix headlight with adaptive beam, 5000K color temperature, 200m visibility.'
-  };
-  group.add(headlightL);
-
-  const headlightR = new THREE.Mesh(
-    new THREE.BoxGeometry(0.5, 0.15, 0.1),
-    headlightMat
-  );
-  headlightR.position.set(0.85, 1.0, -3.05);
-  headlightR.userData = {
-    part: 'headlight',
-    title: 'Right Headlight',
-    desc: 'Full-LED matrix headlight with adaptive beam, 5000K color temperature, 200m visibility.'
-  };
-  group.add(headlightR);
-
-  // Headlight glow
-  [headlightL, headlightR].forEach(hl => {
-    const glow = new THREE.PointLight(0xffffff, 0.6, 4);
-    glow.position.copy(hl.position);
-    group.add(glow);
-  });
-
-  /* ---------- TAILLIGHTS ---------- */
-  const taillightL = new THREE.Mesh(
-    new THREE.BoxGeometry(0.55, 0.12, 0.08),
-    taillightMat
-  );
-  taillightL.position.set(-0.75, 1.05, 2.75);
-  taillightL.userData = {
-    part: 'taillight',
-    title: 'Left Taillight',
-    desc: 'Full-width OLED taillight with dynamic sequential turn signals and animated unlock sequence.'
-  };
-  group.add(taillightL);
-
-  const taillightR = new THREE.Mesh(
-    new THREE.BoxGeometry(0.55, 0.12, 0.08),
-    taillightMat
-  );
-  taillightR.position.set(0.75, 1.05, 2.75);
-  taillightR.userData = {
-    part: 'taillight',
-    title: 'Right Taillight',
-    desc: 'Full-width OLED taillight with dynamic sequential turn signals and animated unlock sequence.'
-  };
-  group.add(taillightR);
-
-  // Taillight glow
-  [taillightL, taillightR].forEach(tl => {
-    const glow = new THREE.PointLight(accentColor, 0.4, 3);
-    glow.position.copy(tl.position);
-    group.add(glow);
-  });
-
-  /* ---------- BODY PARTS FOR HOVER (assign to main meshes) ---------- */
-  chassis.userData = { part: 'body', title: 'Body Chassis', desc: 'Ultra-light carbon fiber and aluminum monocoque. Torsional rigidity of 40,000 Nm/degree.' };
-  hood.userData = { part: 'hood', title: 'Hood', desc: 'Aluminum alloy hood with aerodynamic vents and heat-reflective coating.' };
-  cabin.userData = { part: 'cabin', title: 'Cabin', desc: 'Hand-stitched leather interior with carbon fiber trim, digital cockpit and premium audio.' };
-  roof.userData = { part: 'roof', title: 'Roof', desc: 'Panoramic glass roof with electrochromic dimming, UV and infrared protection.' };
-  windshield.userData = { part: 'windshield', title: 'Windshield', desc: 'Laminated acoustic safety glass with hydrophobic coating and rain sensors.' };
-  trunk.userData = { part: 'trunk', title: 'Rear Deck', desc: 'Rear storage compartment with active aerodynamic spoiler integration.' };
-  midBody.userData = { part: 'midbody', title: 'Side Panels', desc: 'Sculpted aerodynamic side panels with integrated air channels for brake cooling.' };
-  wing.userData = { part: 'wing', title: 'Rear Wing', desc: 'Active rear wing with adjustable angle for optimal downforce at any speed.' };
-  grill.userData = { part: 'grill', title: 'Front Grille', desc: 'Active aerodynamic front grille with integrated radar and camera sensors.' };
-
-  // Apply same userData refs to rear win, side wins
-  rearWin.userData = { part: 'rearwin', title: 'Rear Window', desc: 'Tinted rear glass with acoustic insulation and integrated defroster.' };
-
-  return { group, wheels };
-}
-
-/* =========================================================
-   BUILD ENVIRONMENT (lights + ground + reflections)
-========================================================= */
-function setupEnvironment(scene, renderer) {
-  // Ambient
-  scene.add(new THREE.AmbientLight(0xffffff, 0.35));
-
-  // Key light
-  const key = new THREE.DirectionalLight(0xffffff, 2.2);
-  key.position.set(6, 10, 6);
-  key.castShadow = true;
-  key.shadow.mapSize.set(2048, 2048);
-  key.shadow.camera.near = 0.5;
-  key.shadow.camera.far = 30;
-  key.shadow.camera.left = -8;
-  key.shadow.camera.right = 8;
-  key.shadow.camera.top = 8;
-  key.shadow.camera.bottom = -8;
-  key.shadow.bias = -0.0005;
-  scene.add(key);
-
-  // Fill light
-  const fill = new THREE.DirectionalLight(0x88aaff, 1.0);
-  fill.position.set(-8, 6, -4);
-  scene.add(fill);
-
-  // Rim light
-  const rim = new THREE.DirectionalLight(0xff88cc, 1.2);
-  rim.position.set(-4, 4, -10);
-  scene.add(rim);
-
-  // Top spot (studio)
-  const spot = new THREE.SpotLight(0xffffff, 3);
-  spot.position.set(0, 12, 0);
-  spot.angle = 0.6;
-  spot.penumbra = 0.5;
-  spot.decay = 1.5;
-  spot.distance = 30;
-  scene.add(spot);
-
-  // Ground
-  const groundGeo = new THREE.CircleGeometry(14, 64);
-  const groundMat = new THREE.MeshStandardMaterial({
-    color: 0x0a0a0a,
-    metalness: 0.9,
-    roughness: 0.4
-  });
-  const ground = new THREE.Mesh(groundGeo, groundMat);
-  ground.rotation.x = -Math.PI / 2;
-  ground.receiveShadow = true;
-  scene.add(ground);
-
-  // Reflection grid on ground (subtle)
-  const gridHelper = new THREE.GridHelper(28, 40, 0x1a1a1a, 0x111111);
-  gridHelper.position.y = 0.001;
-  scene.add(gridHelper);
-
-  // Environment map for reflections
-  const cubeRT = new THREE.WebGLCubeRenderTarget(256, {
-    generateMipmaps: true,
-    minFilter: THREE.LinearMipmapLinearFilter
-  });
-  const pmrem = new THREE.PMREMGenerator(renderer);
-  pmrem.compileCubemapShader();
-
-  // Create a simple gradient environment
-  const envScene = new THREE.Scene();
-  envScene.background = new THREE.Color(0x111118);
-  const envGeo = new THREE.SphereGeometry(50, 32, 32);
-  const envMat = new THREE.ShaderMaterial({
-    side: THREE.BackSide,
-    uniforms: {},
-    vertexShader: `
-      varying vec3 vPos;
-      void main() { vPos = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
-    `,
-    fragmentShader: `
-      varying vec3 vPos;
-      void main() {
-        float t = normalize(vPos).y * 0.5 + 0.5;
-        vec3 top = vec3(0.15, 0.18, 0.25);
-        vec3 bot = vec3(0.02, 0.02, 0.03);
-        vec3 col = mix(bot, top, t);
-        gl_FragColor = vec4(col, 1.0);
-      }
-    `
-  });
-  const envSphere = new THREE.Mesh(envGeo, envMat);
-  envScene.add(envSphere);
-
-  const envMap = pmrem.fromScene(envScene, 0.04).texture;
-  scene.environment = envMap;
-
-  // Fog for depth
-  scene.fog = new THREE.Fog(0x000000, 12, 25);
-}
-
-/* =========================================================
-   SCENE MANAGER — handles each car section
-========================================================= */
-class CarScene {
-  constructor(carData, container) {
-    this.carData = carData;
-    this.container = container;
-    this.scene = new THREE.Scene();
-    this.renderer = createRenderer(container);
-    
-    this.camera = new THREE.PerspectiveCamera(
-      35,
-      container.clientWidth / container.clientHeight,
-      0.1,
-      100
-    );
-    this.camera.position.set(5, 2.8, 8);
-    this.camera.lookAt(0, 1, 0);
-
-    setupEnvironment(this.scene, this.renderer);
-
-    const built = buildCar(carData);
-    this.carGroup = built.group;
-    this.wheels = built.wheels;
-    this.scene.add(this.carGroup);
-
-    // Group for camera look-at
-    this.targetPos = new THREE.Vector3(0, 1, 0);
-
-    // Interaction state
-    this.mouse = { x: 0, y: 0 };
-    this.rotY = 0;
-    this.rotX = 0;
-    this.targetRotY = 0;
-    this.targetRotX = 0;
-    this.zoom = 8;
-    this.targetZoom = 8;
-    this.dragging = false;
-    this.dragStart = { x: 0, y: 0 };
-    this.autoRotate = true;
-
-    // Raycaster for hover
-    this.raycaster = new THREE.Raycaster();
-    this.mouseNDC = new THREE.Vector2();
-    this.hoveredPart = null;
-
-    this.setupInteraction();
-    this.setupResize();
-
-    this.clock = new THREE.Clock();
-    this.animate();
-  }
-
-  setupInteraction() {
-    const canvas = this.renderer.domElement;
-
-    canvas.addEventListener('mousedown', (e) => {
-      this.dragging = true;
-      this.autoRotate = false;
-      this.dragStart.x = e.clientX;
-      this.dragStart.y = e.clientY;
-      canvas.style.cursor = 'grabbing';
-    });
-
-    window.addEventListener('mouseup', () => {
-      this.dragging = false;
-      canvas.style.cursor = 'grab';
-      // Resume auto-rotate after delay
-      clearTimeout(this._autoResume);
-      this._autoResume = setTimeout(() => { this.autoRotate = true; }, 4000);
-    });
-
-    window.addEventListener('mousemove', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      this.mouseNDC.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      this.mouseNDC.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-
-      if (this.dragging) {
-        const dx = e.clientX - this.dragStart.x;
-        const dy = e.clientY - this.dragStart.y;
-        this.targetRotY += dx * 0.008;
-        this.targetRotX += dy * 0.004;
-        this.targetRotX = Math.max(-0.4, Math.min(0.5, this.targetRotX));
-        this.dragStart.x = e.clientX;
-        this.dragStart.y = e.clientY;
-      }
-    });
-
-    canvas.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      this.targetZoom += e.deltaY * 0.006;
-      this.targetZoom = Math.max(5, Math.min(14, this.targetZoom));
-    }, { passive: false });
-
-    canvas.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) {
-        this.dragging = true;
-        this.autoRotate = false;
-        this.dragStart.x = e.touches[0].clientX;
-        this.dragStart.y = e.touches[0].clientY;
-      }
-    }, { passive: true });
-
-    canvas.addEventListener('touchmove', (e) => {
-      if (this.dragging && e.touches.length === 1) {
-        const dx = e.touches[0].clientX - this.dragStart.x;
-        const dy = e.touches[0].clientY - this.dragStart.y;
-        this.targetRotY += dx * 0.008;
-        this.targetRotX += dy * 0.004;
-        this.targetRotX = Math.max(-0.4, Math.min(0.5, this.targetRotX));
-        this.dragStart.x = e.touches[0].clientX;
-        this.dragStart.y = e.touches[0].clientY;
-      }
-    }, { passive: true });
-
-    canvas.addEventListener('touchend', () => {
-      this.dragging = false;
-      clearTimeout(this._autoResume);
-      this._autoResume = setTimeout(() => { this.autoRotate = true; }, 4000);
-    });
-  }
-
-  setupResize() {
-    const ro = new ResizeObserver(() => {
-      const w = this.container.clientWidth;
-      const h = this.container.clientHeight;
-      if (w === 0 || h === 0) return;
-      this.camera.aspect = w / h;
-      this.camera.updateProjectionMatrix();
-      this.renderer.setSize(w, h);
-    });
-    ro.observe(this.container);
-  }
-
-  animate() {
-    requestAnimationFrame(() => this.animate());
-    const t = this.clock.getElapsedTime();
-    const dt = this.clock.getDelta();
-
-    // Auto rotate
-    if (this.autoRotate) {
-      this.targetRotY += 0.0018;
-    }
-
-    // Smooth interpolation
-    this.rotY += (this.targetRotY - this.rotY) * 0.08;
-    this.rotX += (this.targetRotX - this.rotX) * 0.08;
-    this.zoom += (this.targetZoom - this.zoom) * 0.08;
-
-    // Apply to car
-    this.carGroup.rotation.y = this.rotY;
-    this.carGroup.position.y = Math.sin(t * 1.2) * 0.02;
-
-    // Camera orbit
-    const camX = Math.sin(0.3) * this.zoom;
-    const camZ = Math.cos(0.3) * this.zoom;
-    this.camera.position.x = camX * 0.7;
-    this.camera.position.z = camZ;
-    this.camera.position.y = 2.8 + this.rotX * 3;
-    this.camera.lookAt(0, 1, 0);
-
-    // Spin wheels slowly (idle rotation)
-    this.wheels.forEach((w, i) => {
-      w.rotation.x += 0.005;
-      // Wheel hover effect
-      if (w.userData.hovered) {
-        w.position.y = 0.42 + Math.sin(t * 8) * 0.05 + 0.1;
-        w.rotation.y += 0.05;
-        w.scale.setScalar(1 + Math.sin(t * 6) * 0.05 + 1.1);
-      } else {
-        w.position.y += (0.42 - w.position.y) * 0.15;
-        w.rotation.y *= 0.9;
-        const targetScale = 1;
-        w.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.15);
-      }
-    });
-
-    // Raycast for hover detection
-    this.raycaster.setFromCamera(this.mouseNDC, this.camera);
-    const intersects = this.raycaster.intersectObjects(this.carGroup.children, true);
-
-    // Reset hover states
-    let foundHover = false;
-    this.wheels.forEach(w => w.userData.hovered = false);
-
-    if (intersects.length > 0) {
-      // Find first mesh with userData
-      for (let hit of intersects) {
-        let obj = hit.object;
-        // Check if wheel child
-        if (obj.userData.parentRef && obj.userData.parentRef.userData.isWheel) {
-          const wheel = obj.userData.parentRef;
-          wheel.userData.hovered = true;
-          this.setHoveredPart(wheel.userData);
-          foundHover = true;
-          break;
-        }
-        if (obj.userData.part) {
-          this.setHoveredPart(obj.userData);
-          foundHover = true;
-          break;
-        }
-      }
-    }
-
-    if (!foundHover) {
-      this.setHoveredPart(null);
-    }
-
-    // Update cursor
-    if (!this.dragging) {
-      this.renderer.domElement.style.cursor = foundHover ? 'pointer' : 'grab';
-    }
-
-    this.renderer.render(this.scene, this.camera);
-  }
-
-  setHoveredPart(data) {
-    if (this.onHover) this.onHover(data);
-    // Also broadcast globally
-    if (data) {
-      window.dispatchEvent(new CustomEvent('carPartHover', { detail: { partData: data, carData: this.carData } }));
-    } else {
-      window.dispatchEvent(new CustomEvent('carPartHover', { detail: null }));
-    }
-  }
-}
-
-/* =========================================================
-   BUILD SHOWROOM SECTIONS
-========================================================= */
-const showroom = document.getElementById('showroom');
-const sideNav = document.getElementById('sideNav');
-const carScenes = [];
-const carSections = [];
-
-CARS.forEach((car, i) => {
-  // Section
-  const section = document.createElement('section');
-  section.className = 'car-section';
-  section.id = `car-${i}`;
-  section.dataset.index = i;
-
-  // Number badge
-  const num = String(i + 1).padStart(2, '0');
-
-  section.innerHTML = `
-    <div class="canvas-wrap" data-canvas="${i}"></div>
-    <div class="car-emoji-bg">🏎️</div>
-    <div class="info-panel">
-      <div class="car-number">${num} / 10</div>
-      <div class="car-brand">${car.brand}</div>
-      <h2 class="car-name">${car.model.split(' ').map((w, idx) => idx === 0 ? `<strong>${w}</strong>` : w).join(' ')}</h2>
-      <p class="car-tagline">${car.tagline}</p>
-      <div class="car-specs-row">
-        <div class="spec-item">
-          <div class="label">Engine</div>
-          <div class="value">${car.engine}</div>
-        </div>
-        <div class="spec-item">
-          <div class="label">Power</div>
-          <div class="value">${car.power} <small>${car.powerUnit}</small></div>
-        </div>
-        <div class="spec-item">
-          <div class="label">Top Speed</div>
-          <div class="value">${car.speed} <small>${car.speedUnit}</small></div>
-        </div>
-        <div class="spec-item">
-          <div class="label">0 – 100 km/h</div>
-          <div class="value">${car.accel} <small>${car.accelUnit}</small></div>
-        </div>
+<!-- WEAPONS SECTION -->
+<section class="section" id="weapons">
+  <div class="section-title">
+    <h2>TOP WEAPONS</h2>
+    <p>Current OB54 meta tier list — the strongest guns in the game</p>
+    <div class="divider"></div>
+  </div>
+  <div class="weapons-grid">
+    <div class="weapon-card">
+      <span class="weapon-tier tier-god">GOD</span>
+      <span class="weapon-emoji">🔫</span>
+      <h3>GROZA</h3>
+      <div class="weapon-class">Assault Rifle</div>
+      <div class="weapon-stats">
+        <div class="w-stat"><div class="label">Damage</div><div class="val">61</div></div>
+        <div class="w-stat"><div class="label">Range</div><div class="val">77</div></div>
       </div>
-      <button class="inspect-btn" onclick="openInspector(${i})">Inspect in 3D →</button>
     </div>
-    <div class="brand-panel">
-      <div class="brand-logo">${car.brand}</div>
+    <div class="weapon-card">
+      <span class="weapon-tier tier-s">S+</span>
+      <span class="weapon-emoji">🎯</span>
+      <h3>AWM</h3>
+      <div class="weapon-class">Sniper Rifle</div>
+      <div class="weapon-stats">
+        <div class="w-stat"><div class="label">Damage</div><div class="val">90</div></div>
+        <div class="w-stat"><div class="label">Range</div><div class="val">91</div></div>
+      </div>
     </div>
-  `;
+    <div class="weapon-card">
+      <span class="weapon-tier tier-s">S+</span>
+      <span class="weapon-emoji">💥</span>
+      <h3>M1887</h3>
+      <div class="weapon-class">Shotgun</div>
+      <div class="weapon-stats">
+        <div class="w-stat"><div class="label">Damage</div><div class="val">100</div></div>
+        <div class="w-stat"><div class="label">Range</div><div class="val">16</div></div>
+      </div>
+    </div>
+    <div class="weapon-card">
+      <span class="weapon-tier tier-s">S</span>
+      <span class="weapon-emoji">⚡</span>
+      <h3>MP40</h3>
+      <div class="weapon-class">SMG</div>
+      <div class="weapon-stats">
+        <div class="w-stat"><div class="label">Damage</div><div class="val">27</div></div>
+        <div class="w-stat"><div class="label">Fire Rate</div><div class="val">83</div></div>
+      </div>
+    </div>
+    <div class="weapon-card">
+      <span class="weapon-tier tier-s">S</span>
+      <span class="weapon-emoji">🪵</span>
+      <h3>WOODPECKER</h3>
+      <div class="weapon-class">Marksman Rifle</div>
+      <div class="weapon-stats">
+        <div class="w-stat"><div class="label">Damage</div><div class="val">85</div></div>
+        <div class="w-stat"><div class="label">Armor Pen</div><div class="val">High</div></div>
+      </div>
+    </div>
+    <div class="weapon-card">
+      <span class="weapon-tier tier-s">S</span>
+      <span class="weapon-emoji">🎯</span>
+      <h3>M82B</h3>
+      <div class="weapon-class">Sniper Rifle</div>
+      <div class="weapon-stats">
+        <div class="w-stat"><div class="label">Damage</div><div class="val">91</div></div>
+        <div class="w-stat"><div class="label">Gloo Break</div><div class="val">Yes</div></div>
+      </div>
+    </div>
+    <div class="weapon-card">
+      <span class="weapon-tier tier-s">S</span>
+      <span class="weapon-emoji">🔫</span>
+      <h3>UMP</h3>
+      <div class="weapon-class">SMG</div>
+      <div class="weapon-stats">
+        <div class="w-stat"><div class="label">Damage</div><div class="val">27</div></div>
+        <div class="w-stat"><div class="label">Accuracy</div><div class="val">High</div></div>
+      </div>
+    </div>
+    <div class="weapon-card">
+      <span class="weapon-tier tier-a">A+</span>
+      <span class="weapon-emoji">🚀</span>
+      <h3>TROGON</h3>
+      <div class="weapon-class">Shotgun + Launcher</div>
+      <div class="weapon-stats">
+        <div class="w-stat"><div class="label">Damage</div><div class="val">93</div></div>
+        <div class="w-stat"><div class="label">Slots</div><div class="val">2-in-1</div></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  showroom.appendChild(section);
-  carSections.push(section);
+<!-- CHARACTERS SECTION -->
+<section class="section" id="characters" style="background: linear-gradient(180deg, transparent, rgba(255, 208, 0, 0.03), transparent);">
+  <div class="section-title">
+    <h2>ICONIC CHARACTERS</h2>
+    <p>Each character brings a unique ability to the battlefield</p>
+    <div class="divider"></div>
+  </div>
+  <div class="characters-grid">
+    <div class="char-card">
+      <div class="char-avatar">❄️</div>
+      <h3>NERO</h3>
+      <div class="char-role">Dream Shaper</div>
+      <div class="char-ability"><strong>Cryo Mind:</strong> Throws a plushie that creates a dream space, damaging enemies over time.</div>
+    </div>
+    <div class="char-card">
+      <div class="char-avatar">🔫</div>
+      <h3>NIKITA</h3>
+      <div class="char-role">Bodyguard</div>
+      <div class="char-ability"><strong>Firearms Expert:</strong> Reloads SMGs significantly faster.</div>
+    </div>
+    <div class="char-card">
+      <div class="char-avatar">🏍️</div>
+      <h3>NOTORA</h3>
+      <div class="char-role">Motorcycle Racer</div>
+      <div class="char-ability"><strong>Racer's Blessing:</strong> Restores HP to everyone inside a vehicle while driving.</div>
+    </div>
+    <div class="char-card">
+      <div class="char-avatar">👩‍⚕️</div>
+      <h3>OLIVIA</h3>
+      <div class="char-role">Nurse</div>
+      <div class="char-ability"><strong>Healing Touch:</strong> Players revived by Olivia get back up with additional HP.</div>
+    </div>
+    <div class="char-card">
+      <div class="char-avatar">⚔️</div>
+      <h3>ORION</h3>
+      <div class="char-role">Crimson Fighter</div>
+      <div class="char-ability"><strong>Crimson Crush:</strong> Consumes energy to absorb HP from enemies within 5m radius.</div>
+    </div>
+    <div class="char-card">
+      <div class="char-avatar">🥷</div>
+      <h3>RIN</h3>
+      <div class="char-role">Ninja</div>
+      <div class="char-ability"><strong>Gale of Kunai:</strong> Summons kunai that deal damage to Gloo Walls and enemies.</div>
+    </div>
+    <div class="char-card">
+      <div class="char-avatar">🎯</div>
+      <h3>RAFAEL</h3>
+      <div class="char-role">Assassin</div>
+      <div class="char-ability"><strong>Dead Silent:</strong> Prevents you from being revealed on the minimap for 8 seconds.</div>
+    </div>
+    <div class="char-card">
+      <div class="char-avatar">🛡️</div>
+      <h3>CHRONO</h3>
+      <div class="char-role">Bounty Hunter</div>
+      <div class="char-ability"><strong>Force Field:</strong> Creates a shield that blocks 600 damage and boosts movement speed.</div>
+    </div>
+  </div>
+</section>
 
-  // Side nav dot
-  const dot = document.createElement('div');
-  dot.className = 'side-dot';
-  dot.dataset.index = i;
-  dot.title = `${car.brand} ${car.model}`;
-  dot.addEventListener('click', () => {
-    section.scrollIntoView({ behavior: 'smooth' });
-  });
-  sideNav.appendChild(dot);
+<!-- MAPS SECTION -->
+<section class="section" id="maps">
+  <div class="section-title">
+    <h2>BATTLEGROUNDS</h2>
+    <p>Master every terrain — from tropical islands to desert wastelands</p>
+    <div class="divider"></div>
+  </div>
+  <div class="maps-grid">
+    <div class="map-card">
+      <div class="map-bg map-bermuda"></div>
+      <div class="map-overlay">
+        <div class="map-type">Classic Map</div>
+        <h3>BERMUDA</h3>
+        <p>The original battleground. Diverse terrain from Clock Tower to Peak — balanced for all playstyles.</p>
+      </div>
+    </div>
+    <div class="map-card">
+      <div class="map-bg map-purgatory"></div>
+      <div class="map-overlay">
+        <div class="map-type">Large Map</div>
+        <h3>PURGATORY</h3>
+        <p>Vast valleys and hills built for long-range combat. Master the ziplines to dominate.</p>
+      </div>
+    </div>
+    <div class="map-card">
+      <div class="map-bg map-kalahari"></div>
+      <div class="map-overlay">
+        <div class="map-type">Desert Map</div>
+        <h3>KALAHARI</h3>
+        <p>Harsh desert terrain with sandstorms. Small map — intense short to mid-range fights.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ESPORTS SECTION -->
+<section class="esports" id="esports">
+  <div class="section-title">
+    <h2>ESPORTS WORLD CUP 2026</h2>
+    <p>Paris · July 15-18 · The world's best battle for glory</p>
+    <div class="divider"></div>
+  </div>
+  <div class="prize-pool">
+    <div class="amount">$1M+</div>
+    <div class="label">Total Prize Pool</div>
+  </div>
+  <div class="leaderboard">
+    <div class="lb-row header">
+      <div>Rank</div>
+      <div>Team</div>
+      <div>Prize</div>
+      <div>CC Points</div>
+    </div>
+    <div class="lb-row">
+      <div class="lb-rank gold">1</div>
+      <div class="lb-team">LYON</div>
+      <div class="lb-prize">$300,000</div>
+      <div class="lb-points">+1,000</div>
+    </div>
+    <div class="lb-row">
+      <div class="lb-rank silver">2</div>
+      <div class="lb-team">AG.AL</div>
+      <div class="lb-prize">$180,000</div>
+      <div class="lb-points">+750</div>
+    </div>
+    <div class="lb-row">
+      <div class="lb-rank bronze">3</div>
+      <div class="lb-team">LOUD SNICKERS</div>
+      <div class="lb-prize">$120,000</div>
+      <div class="lb-points">+500</div>
+    </div>
+    <div class="lb-row">
+      <div class="lb-rank">4</div>
+      <div class="lb-team">TWISTED MINDS</div>
+      <div class="lb-prize">$80,000</div>
+      <div class="lb-points">+300</div>
+    </div>
+    <div class="lb-row">
+      <div class="lb-rank">5</div>
+      <div class="lb-team">FLUXO W7M</div>
+      <div class="lb-prize">$61,000</div>
+      <div class="lb-points">+200</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / DOWNLOAD -->
+<section class="cta-section" id="download">
+  <h2>READY TO <span>BOOYAH?</span></h2>
+  <p>Free to play. 10-minute matches. Available on mobile worldwide. Join over 1 billion players.</p>
+  <div class="download-buttons">
+    <a class="store-btn" href="https://play.google.com/store/apps/details?id=com.dts.freefireth" target="_blank">
+      <span class="store-icon">▶</span>
+      <div class="store-text">
+        <small>Get it on</small>
+        <strong>Google Play</strong>
+      </div>
+    </a>
+    <a class="store-btn" href="https://apps.apple.com/app/garena-free-fire/id1300146617" target="_blank">
+      <span class="store-icon">🍎</span>
+      <div class="store-text">
+        <small>Download on the</small>
+        <strong>App Store</strong>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">FREE FIRE</div>
+  <div class="foot-links">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
+    <a href="#">Support</a>
+    <a href="#">Esports</a>
+  </div>
+  <p>© 2024 Garena Free Fire Fan Hub — This is a fan-made website.</p>
+  <p style="color:#333;font-size:11px;">Free Fire is a registered trademark of Garena International.</p>
+</footer>
+
+<script>
+/* ============ LOADER ============ */
+let progress = 0;
+const loaderInterval = setInterval(() => {
+  progress += Math.random() * 6 + 2;
+  if (progress >= 100) {
+    progress = 100;
+    clearInterval(loaderInterval);
+    setTimeout(() => {
+      document.getElementById('loader').style.opacity = '0';
+      setTimeout(() => {
+        document.getElementById('loader').style.display = 'none';
+      }, 700);
+    }, 300);
+  }
+  document.getElementById('loaderFill').style.width = progress + '%';
+  document.getElementById('loaderText').textContent = Math.floor(progress) + '% LOADING';
+}, 100);
+
+/* ============ SCROLL EFFECTS ============ */
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('header');
+  if (window.scrollY > 50) {
+    header.style.padding = '12px 50px';
+    header.style.background = 'rgba(8, 8, 12, 0.95)';
+  } else {
+    header.style.padding = '18px 50px';
+    header.style.background = 'rgba(8, 8, 12, 0.8)';
+  }
 });
 
-/* =========================================================
-   INIT CAR SCENES (lazy - only when in view)
-========================================================= */
+/* ============ SMOOTH SCROLL ============ */
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+/* ============ REVEAL ANIMATION ============ */
+const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    const idx = parseInt(entry.target.dataset.index);
-    if (entry.isIntersecting && !carScenes[idx]) {
-      const canvasWrap = entry.target.querySelector('.canvas-wrap');
-      const scene = new CarScene(CARS[idx], canvasWrap);
-      carScenes[idx] = scene;
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
     }
   });
-}, { rootMargin: '200px' });
+}, observerOptions);
 
-carSections.forEach(s => observer.observe(s));
-
-/* =========================================================
-   SCROLL: update header counter + active dot
-========================================================= */
-function updateActive() {
-  const scrollY = window.scrollY;
-  const vh = window.innerHeight;
-  // Find which section is most in view
-  let activeIdx = 0;
-  carSections.forEach((s, i) => {
-    const rect = s.getBoundingClientRect();
-    if (rect.top <= vh * 0.5 && rect.bottom > vh * 0.5) {
-      activeIdx = i;
-    }
-  });
-  document.getElementById('carCounter').textContent = String(activeIdx + 1).padStart(2, '0');
-  document.querySelectorAll('.side-dot').forEach((d, i) => {
-    d.classList.toggle('active', i === activeIdx);
-  });
-}
-
-window.addEventListener('scroll', () => {
-  updateActive();
-  const header = document.getElementById('header');
-  if (window.scrollY > window.innerHeight * 0.8) {
-    header.classList.add('solid');
-  } else {
-    header.classList.remove('solid');
-  }
-}, { passive: true });
-
-/* =========================================================
-   FULLSCREEN INSPECTOR
-========================================================= */
-let inspector = null;
-let inspectorScene = null;
-
-window.openInspector = function(carIdx) {
-  const carData = CARS[carIdx];
-  const inspEl = document.getElementById('inspector');
-  inspEl.classList.add('active');
-  document.body.classList.add('loading');
-
-  document.getElementById('inspTitle').textContent = `${carData.brand} ${carData.model}`;
-
-  // Wait a frame for the container to be visible
-  requestAnimationFrame(() => {
-    const container = inspEl;
-    // Remove old canvas if any
-    const oldCanvas = inspEl.querySelector('canvas');
-    if (oldCanvas) oldCanvas.remove();
-    if (inspectorScene) {
-      inspectorScene.renderer.dispose();
-    }
-
-    // Create scene
-    const scene = new THREE.Scene();
-    const renderer = createRenderer(inspEl);
-    scene.background = new THREE.Color(0x050505);
-
-    const camera = new THREE.PerspectiveCamera(35, container.clientWidth / container.clientHeight, 0.1, 100);
-    camera.position.set(6, 3, 8);
-    camera.lookAt(0, 1, 0);
-
-    setupEnvironment(scene, renderer);
-
-    const built = buildCar(carData);
-    const carGroup = built.group;
-    const wheels = built.wheels;
-    scene.add(carGroup);
-
-    // Interaction
-    let rotY = 0, rotX = 0, targetRotY = 0, targetRotX = 0;
-    let zoom = 8, targetZoom = 8;
-    let dragging = false;
-    let dragStart = { x: 0, y: 0 };
-    let autoRotate = true;
-
-    const canvas = renderer.domElement;
-    canvas.addEventListener('mousedown', (e) => {
-      dragging = true; autoRotate = false;
-      dragStart.x = e.clientX; dragStart.y = e.clientY;
-    });
-    window.addEventListener('mouseup', () => {
-      dragging = false;
-      clearTimeout(window._inspResume);
-      window._inspResume = setTimeout(() => { autoRotate = true; }, 4000);
-    });
-    window.addEventListener('mousemove', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      inspMouseNDC.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      inspMouseNDC.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-      if (dragging) {
-        const dx = e.clientX - dragStart.x;
-        const dy = e.clientY - dragStart.y;
-        targetRotY += dx * 0.008;
-        targetRotX += dy * 0.004;
-        targetRotX = Math.max(-0.5, Math.min(0.6, targetRotX));
-        dragStart.x = e.clientX; dragStart.y = e.clientY;
-      }
-    });
-    canvas.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      targetZoom += e.deltaY * 0.008;
-      targetZoom = Math.max(4, Math.min(15, targetZoom));
-    }, { passive: false });
-
-    // Touch
-    canvas.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) {
-        dragging = true; autoRotate = false;
-        dragStart.x = e.touches[0].clientX;
-        dragStart.y = e.touches[0].clientY;
-      }
-    }, { passive: true });
-    canvas.addEventListener('touchmove', (e) => {
-      if (dragging && e.touches.length === 1) {
-        const dx = e.touches[0].clientX - dragStart.x;
-        const dy = e.touches[0].clientY - dragStart.y;
-        targetRotY += dx * 0.008;
-        targetRotX += dy * 0.004;
-        targetRotX = Math.max(-0.5, Math.min(0.6, targetRotX));
-        dragStart.x = e.touches[0].clientX;
-        dragStart.y = e.touches[0].clientY;
-      }
-    }, { passive: true });
-    canvas.addEventListener('touchend', () => {
-      dragging = false;
-      clearTimeout(window._inspResume);
-      window._inspResume = setTimeout(() => { autoRotate = true; }, 4000);
-    });
-
-    const inspMouseNDC = new THREE.Vector2();
-    const raycaster = new THREE.Raycaster();
-    const clock = new THREE.Clock();
-
-    // Part info UI
-    const partInfoEl = document.getElementById('partInfo');
-    const partTitleEl = document.getElementById('partTitle');
-    const partDescEl = document.getElementById('partDesc');
-    let currentHoveredKey = null;
-
-    function loop() {
-      if (!inspEl.classList.contains('active')) return;
-      requestAnimationFrame(loop);
-      const t = clock.getElapsedTime();
-
-      if (autoRotate) targetRotY += 0.002;
-
-      rotY += (targetRotY - rotY) * 0.08;
-      rotX += (targetRotX - rotX) * 0.08;
-      zoom += (targetZoom - zoom) * 0.08;
-
-      carGroup.rotation.y = rotY;
-      carGroup.position.y = Math.sin(t * 1.2) * 0.02;
-
-      camera.position.x = Math.sin(0.3) * zoom * 0.7;
-      camera.position.z = Math.cos(0.3) * zoom;
-      camera.position.y = 3 + rotX * 3;
-      camera.lookAt(0, 1, 0);
-
-      // Wheels idle spin + hover
-      wheels.forEach(w => {
-        w.rotation.x += 0.004;
-        if (w.userData.hovered) {
-          w.position.y = 0.42 + Math.sin(t * 8) * 0.06 + 0.15;
-          w.rotation.y += 0.06;
-          const s = 1.15 + Math.sin(t * 6) * 0.08;
-          w.scale.setScalar(s);
-        } else {
-          w.position.y += (0.42 - w.position.y) * 0.15;
-          w.rotation.y *= 0.9;
-          w.scale.lerp(new THREE.Vector3(1, 1, 1), 0.15);
-        }
-        w.userData.hovered = false;
-      });
-
-      // Raycast
-      raycaster.setFromCamera(inspMouseNDC, camera);
-      const intersects = raycaster.intersectObjects(carGroup.children, true);
-      let hovered = null;
-      for (let hit of intersects) {
-        const obj = hit.object;
-        if (obj.userData.parentRef && obj.userData.parentRef.userData.isWheel) {
-          obj.userData.parentRef.userData.hovered = true;
-          hovered = obj.userData.parentRef.userData;
-          break;
-        }
-        if (obj.userData.part) {
-          hovered = obj.userData;
-          break;
-        }
-      }
-
-      const key = hovered ? hovered.part + (hovered.title || '') : null;
-      if (key !== currentHoveredKey) {
-        currentHoveredKey = key;
-        if (hovered) {
-          partTitleEl.textContent = hovered.title || 'Component';
-          partDescEl.textContent = hovered.desc || '';
-          partInfoEl.classList.add('show');
-        } else {
-          partInfoEl.classList.remove('show');
-        }
-      }
-
-      canvas.style.cursor = dragging ? 'grabbing' : (hovered ? 'pointer' : 'grab');
-
-      renderer.render(scene, camera);
-    }
-    loop();
-
-    inspectorScene = { scene, renderer, camera, carGroup, wheels };
-  });
-};
-
-window.closeInspector = function() {
-  const inspEl = document.getElementById('inspector');
-  inspEl.classList.remove('active');
-  document.body.classList.remove('loading');
-  if (inspectorScene) {
-    inspectorScene.renderer.dispose();
-    inspectorScene = null;
-  }
-  const c = inspEl.querySelector('canvas');
-  if (c) c.remove();
-};
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeInspector();
+document.querySelectorAll('.weapon-card, .char-card, .map-card, .lb-row').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(30px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
 });
 
-/* =========================================================
-   HERO ANIMATION DONE → remove loader
-========================================================= */
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    const loader = document.getElementById('loader');
-    loader.style.opacity = '0';
-    setTimeout(() => {
-      loader.style.display = 'none';
-      document.body.classList.remove('loading');
-      updateActive();
-    }, 800);
-  }, 2300);
-});
-
-// Also handle case where load already fired
-if (document.readyState === 'complete') {
-  setTimeout(() => {
-    const loader = document.getElementById('loader');
-    loader.style.opacity = '0';
-    setTimeout(() => {
-      loader.style.display = 'none';
-      document.body.classList.remove('loading');
-    }, 800);
-  }, 2300);
-}
-
-console.log('%c🏎️ AutoVerse 3D — Billionaire Edition', 'font-size:16px;color:#fff;font-weight:bold;');
+console.log('%c🎮 FREE FIRE Fan Hub Loaded!', 'color:#ff3d00;font-size:18px;font-weight:bold;');
+console.log('%cBOOYAH! 🔥', 'color:#ffd000;font-size:24px;font-weight:bold;');
 </script>
 </body>
 </html>
