@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoVerse 3D - Premium Cars Collection</title>
+<style>
+/* ============ RESET & BASE ============ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', 'Poppins', Tahoma, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: #05050d;
+  color: #fff;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+body.no-scroll { overflow: hidden; }
+
+/* ============ LOADER ============ */
+#loader {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #14142b, #05050d);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  transition: opacity 0.8s ease;
+}
+
+.loader-car {
+  font-size: 110px;
+  animation: driveCar 1.8s infinite ease-in-out;
+  filter: drop-shadow(0 0 30px #00d4ff);
+}
+
+@keyframes driveCar {
+  0%, 100% { transform: translateX(-40px) rotate(-3deg); }
+  50% { transform: translateX(40px) rotate(3deg); }
+}
+
+#loader h2 {
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: #00d4ff;
+}
+
+.loader-bar {
+  width: 320px;
+  max-width: 80%;
+  height: 6px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#loaderFill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #00d4ff, #ff006e);
+  transition: width 0.25s ease;
+  border-radius: 10px;
+  box-shadow: 0 0 15px #00d4ff;
+}
+
+#loaderText {
+  color: #888;
+  font-size: 14px;
+  letter-spacing: 3px;
+}
+
+/* ============ HEADER ============ */
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(5, 5, 13, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 1000;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.12);
+  transition: all 0.3s;
+}
+
+#header.scrolled {
+  padding: 10px 50px;
+  background: rgba(5, 5, 13, 0.95);
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, #00d4ff, #ff006e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  cursor: pointer;
+}
+
+nav {
+  display: flex;
+  gap: 30px;
+}
+
+nav a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #00d4ff, #ff006e);
+  transition: width 0.3s;
+}
+
+nav a:hover { color: #fff; }
+nav a:hover::after { width: 100%; }
+
+.search-box input {
+  padding: 9px 18px;
+  border-radius: 25px;
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+  outline: none;
+  width: 220px;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.search-box input::placeholder { color: #666; }
+
+.search-box input:focus {
+  border-color: #00d4ff;
+  background: rgba(0, 212, 255, 0.08);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.25);
+  width: 260px;
+}
+
+/* ============ HERO ============ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 120px 80px 60px;
+  position: relative;
+  overflow: hidden;
+  background: 
+    radial-gradient(circle at 75% 50%, rgba(0, 212, 255, 0.15), transparent 55%),
+    radial-gradient(circle at 20% 80%, rgba(255, 0, 110, 0.1), transparent 50%);
+  perspective: 1200px;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(0, 212, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(circle at center, black, transparent 75%);
+  -webkit-mask-image: radial-gradient(circle at center, black, transparent 75%);
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 620px;
+}
+
+.hero-tag {
+  display: inline-block;
+  padding: 8px 20px;
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(0, 212, 255, 0.35);
+  border-radius: 30px;
+  font-size: 13px;
+  color: #00d4ff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 25px;
+  animation: fadeInUp 0.8s ease;
+}
+
+.hero-content h1 {
+  font-size: 68px;
+  line-height: 1.1;
+  margin-bottom: 25px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #fff 0%, #00d4ff 50%, #ff006e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeInUp 1s ease 0.1s both;
+}
+
+.hero-content p {
+  font-size: 19px;
+  color: #999;
+  margin-bottom: 40px;
+  animation: fadeInUp 1s ease 0.2s both;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  animation: fadeInUp 1s ease 0.3s both;
+}
+
+.btn-primary {
+  padding: 16px 42px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 40px;
+  background: linear-gradient(90deg, #00d4ff, #ff006e);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.35s;
+  box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+  letter-spacing: 1px;
+}
+
+.btn-primary:hover {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 20px 45px rgba(255, 0, 110, 0.5);
+}
+
+.btn-outline {
+  padding: 16px 42px;
+  font-size: 16px;
+  font-weight: 600;
+  border: 1.5px solid rgba(0, 212, 255, 0.5);
+  border-radius: 40px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.35s;
+  letter-spacing: 1px;
+}
+
+.btn-outline:hover {
+  background: rgba(0, 212, 255, 0.1);
+  border-color: #00d4ff;
+  transform: translateY(-4px);
+}
+
+.hero-3d {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+}
+
+.hero-car-scene {
+  position: relative;
+  transform-style: preserve-3d;
+  animation: floatCar 5s infinite ease-in-out;
+}
+
+.hero-car-emoji {
+  font-size: 260px;
+  filter: drop-shadow(0 30px 60px rgba(0, 212, 255, 0.55));
+  display: block;
+  transform: rotateY(-15deg);
+}
+
+.hero-glow {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 350px;
+  height: 60px;
+  background: radial-gradient(ellipse, rgba(0, 212, 255, 0.6), transparent 70%);
+  filter: blur(20px);
+}
+
+@keyframes floatCar {
+  0%, 100% { transform: translateY(0) rotateY(-15deg); }
+  50% { transform: translateY(-35px) rotateY(-5deg); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ STATS BAR ============ */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 50px 80px;
+  background: linear-gradient(180deg, transparent, rgba(0, 212, 255, 0.03));
+  border-top: 1px solid rgba(0, 212, 255, 0.08);
+  border-bottom: 1px solid rgba(0, 212, 255, 0.08);
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-item h3 {
+  font-size: 42px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #00d4ff, #ff006e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 5px;
+}
+
+.stat-item p {
+  color: #888;
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ============ CARS SECTION ============ */
+.cars-section {
+  padding: 90px 80px;
+  position: relative;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-title h2 {
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, #00d4ff, #ff006e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-title p {
+  color: #888;
+  font-size: 17px;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 50px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 11px 28px;
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  background: rgba(255,255,255,0.03);
+  color: #bbb;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+
+.filter-btn:hover {
+  color: #fff;
+  border-color: #00d4ff;
+  background: rgba(0, 212, 255, 0.08);
+}
+
+.filter-btn.active {
+  background: linear-gradient(90deg, #00d4ff, #ff006e);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 8px 25px rgba(255, 0, 110, 0.35);
+}
+
+.cars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 28px;
+  perspective: 1500px;
+}
+
+.car-card {
+  background: linear-gradient(145deg, #14142b, #0a0a18);
+  border-radius: 22px;
+  padding: 28px 24px;
+  cursor: pointer;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(0, 212, 255, 0.12);
+  transform-style: preserve-3d;
+  position: relative;
+  overflow: hidden;
+}
+
+.car-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 40%, rgba(0, 212, 255, 0.15) 50%, transparent 60%);
+  transition: all 0.7s;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.car-card:hover::before {
+  opacity: 1;
+  top: -100%;
+  left: -100%;
+}
+
+.car-card:hover {
+  transform: translateY(-12px) rotateY(6deg) rotateX(4deg) scale(1.03);
+  box-shadow: 0 30px 70px rgba(0, 212, 255, 0.28);
+  border-color: #00d4ff;
+}
+
+.car-badge-type {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  padding: 5px 14px;
+  background: rgba(0, 212, 255, 0.12);
+  border: 1px solid rgba(0, 212, 255, 0.35);
+  border-radius: 20px;
+  font-size: 11px;
+  color: #00d4ff;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  z-index: 3;
+}
+
+.car-emoji {
+  font-size: 95px;
+  text-align: center;
+  margin: 15px 0 20px;
+  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: block;
+  filter: drop-shadow(0 10px 20px rgba(0, 212, 255, 0.4));
+}
+
+.car-card:hover .car-emoji {
+  transform: scale(1.18) rotateY(360deg);
+  filter: drop-shadow(0 20px 40px rgba(255, 0, 110, 0.5));
+}
+
+.car-card h3 {
+  font-size: 21px;
+  margin-bottom: 6px;
+  color: #fff;
+  font-weight: 700;
+}
+
+.car-card .brand {
+  color: #00d4ff;
+  font-size: 13px;
+  margin-bottom: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.car-card .price {
+  font-size: 22px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #00d4ff, #ff006e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 16px;
+}
+
+.car-card .view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 25px;
+  color: #00d4ff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+  width: 100%;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.car-card:hover .view-btn {
+  background: linear-gradient(90deg, #00d4ff, #ff006e);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* ============ MODAL ============ */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal.active {
+  display: flex;
+  animation: modalIn 0.4s ease;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 1350px;
+  height: 92vh;
+  background: linear-gradient(145deg, #14142b, #07070f);
+  border-radius: 28px;
+  padding: 35px;
+  position: relative;
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  overflow-y: auto;
+  box-shadow: 0 40px 100px rgba(0, 212, 255, 0.2);
+  animation: modalScale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes modalScale {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.close-btn {
+  position: absolute;
+  top: 22px;
+  right: 28px;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s;
+  z-index: 10;
+  background: rgba(255, 0, 110, 0.1);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 0, 110, 0.3);
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: #ff006e;
+  transform: rotate(90deg) scale(1.1);
+  background: rgba(255, 0, 110, 0.2);
+}
+
+.inspection-container {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 40px;
+  height: 100%;
+  align-items: center;
+}
+
+/* ============ 3D CAR VIEWER ============ */
+.car-viewer-3d {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1600px;
+  position: relative;
+  min-height: 480px;
+  user-select: none;
+}
+
+.car-model {
+  width: 400px;
+  height: 220px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(-12deg) rotateY(-25deg);
+  transition: transform 0.15s ease-out;
+  cursor: grab;
+}
+
+.car-model:active { cursor: grabbing; }
+
+.car-model.auto-spin {
+  animation: autoSpin 20s linear infinite;
+}
+
+@keyframes autoSpin {
+  from { transform: rotateX(-12deg) rotateY(0deg); }
+  to { transform: rotateX(-12deg) rotateY(360deg); }
+}
+
+.car-body {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #1e88e5, #0d47a1);
+  border-radius: 60px 80px 30px 30px;
+  transform-style: preserve-3d;
+  box-shadow: 
+    inset -20px -20px 40px rgba(0,0,0,0.45),
+    inset 20px 20px 40px rgba(255,255,255,0.12),
+    0 30px 60px rgba(0,0,0,0.55);
+  transition: all 0.4s;
+}
+
+.car-body:hover {
+  box-shadow: 
+    inset -20px -20px 40px rgba(0,0,0,0.45),
+    inset 20px 20px 40px rgba(255,255,255,0.12),
+    0 30px 85px rgba(0, 212, 255, 0.55);
+}
+
+.car-part {
+  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  position: absolute;
+}
+
+.car-part:hover {
+  filter: brightness(1.4);
+  transform: translateZ(25px) scale(1.05);
+  z-index: 50;
+}
+
+.car-roof {
+  top: -55px;
+  left: 80px;
+  width: 240px;
+  height: 75px;
+  background: linear-gradient(180deg, #42a5f5, #1565c0);
+  border-radius: 50% 50% 20px 20px;
+}
+
+.car-roof:hover {
+  background: linear-gradient(180deg, #ff006e, #c2185b);
+  box-shadow: 0 0 40px rgba(255, 0, 110, 0.6);
+}
+
+.car-windshield {
+  top: 8px;
+  left: 118px;
+  width: 165px;
+  height: 62px;
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.7), rgba(255, 255, 255, 0.35));
+  border-radius: 50% 50% 10px 10px;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.car-windshield:hover {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 1), rgba(255, 255, 255, 0.7));
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.7);
+}
+
+.car-hood {
+  top: 55px;
+  left: 15px;
+  width: 105px;
+  height: 85px;
+  background: linear-gradient(180deg, #1e88e5, #0d47a1);
+  border-radius: 35px 10px 10px 35px;
+}
+
+.car-hood:hover {
+  background: linear-gradient(180deg, #ff006e, #c2185b);
+  box-shadow: 0 0 40px rgba(255, 0, 110, 0.6);
+}
+
+.car-trunk {
+  top: 55px;
+  right: 15px;
+  width: 75px;
+  height: 85px;
+  background: linear-gradient(180deg, #1e88e5, #0d47a1);
+  border-radius: 10px 35px 35px 10px;
+}
+
+.car-trunk:hover {
+  background: linear-gradient(180deg, #ff006e, #c2185b);
+  box-shadow: 0 0 40px rgba(255, 0, 110, 0.6);
+}
+
+/* WHEELS */
+.wheel {
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  background: radial-gradient(circle, #2a2a2a 30%, #0a0a0a 70%);
+  border-radius: 50%;
+  border: 5px solid #4a4a4a;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.6);
+  transform-style: preserve-3d;
+  z-index: 10;
+}
+
+.wheel::after {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  background: radial-gradient(circle, #999, #444);
+  border-radius: 50%;
+  border: 2px solid #666;
+}
+
+.wheel::before {
+  content: '';
+  position: absolute;
+  inset: 24px;
+  background: radial-gradient(circle, #ddd, #777);
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 0 8px rgba(255,255,255,0.5);
+}
+
+.wheel:hover {
+  transform: scale(1.45) translateZ(50px) rotate(360deg);
+  border-color: #00d4ff;
+  box-shadow: 0 0 45px #00d4ff, 0 8px 25px rgba(0,0,0,0.8);
+  filter: brightness(1.3);
+}
+
+.wheel-fl { bottom: -25px; left: 45px; }
+.wheel-fr { bottom: -25px; right: 45px; }
+
+/* HEADLIGHTS */
+.headlight {
+  position: absolute;
+  width: 45px;
+  height: 28px;
+  background: radial-gradient(circle, #fff, #00d4ff 60%, transparent);
+  border-radius: 50%;
+  top: 72px;
+  transition: all 0.3s;
+  box-shadow: 0 0 25px #00d4ff;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.headlight-l { left: -8px; }
+.headlight-r { right: -8px; }
+
+.headlight:hover {
+  transform: scale(1.6) translateZ(30px);
+  box-shadow: 0 0 60px #fff, 0 0 100px #00d4ff;
+  filter: brightness(1.6);
+}
+
+/* TAILLIGHTS */
+.taillight {
+  position: absolute;
+  width: 38px;
+  height: 22px;
+  background: radial-gradient(circle, #ff006e, #c2185b 60%, transparent);
+  border-radius: 50%;
+  bottom: 55px;
+  transition: all 0.3s;
+  box-shadow: 0 0 20px #ff006e;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.taillight-l { left: -6px; }
+.taillight-r { right: -6px; }
+
+.taillight:hover {
+  transform: scale(1.6) translateZ(30px);
+  box-shadow: 0 0 60px #ff006e, 0 0 100px #ff006e;
+  filter: brightness(1.6);
+}
+
+.car-shadow-3d {
+  position: absolute;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 380px;
+  height: 40px;
+  background: radial-gradient(ellipse, rgba(0, 212, 255, 0.5), transparent 70%);
+  filter: blur(18px);
+  pointer-events: none;
+}
+
+/* ============ INFO PANEL ============ */
+.car-info-panel {
+  padding: 15px;
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+.car-info-panel::-webkit-scrollbar { width: 6px; }
+.car-info-panel::-webkit-scrollbar-track { background: transparent; }
+.car-info-panel::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00d4ff, #ff006e);
+  border-radius: 10px;
+}
+
+.car-info-panel h2 {
+  font-size: 34px;
+  margin-bottom: 10px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #00d4ff, #ff006e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.2;
+}
+
+.car-info-panel > p {
+  color: #999;
+  margin-bottom: 28px;
+  line-height: 1.65;
+  font-size: 15px;
+}
+
+.specs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.spec {
+  background: rgba(0, 212, 255, 0.06);
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 212, 255, 0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: all 0.3s;
+}
+
+.spec:hover {
+  background: rgba(0, 212, 255, 0.12);
+  border-color: rgba(0, 212, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.spec span {
+  font-size: 11px;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+}
+
+.spec strong {
+  color: #00d4ff;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.info-box {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.08), rgba(255, 0, 110, 0.08));
+  padding: 22px;
+  border-radius: 18px;
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  margin-bottom: 20px;
+  min-height: 130px;
+  transition: all 0.4s;
+}
+
+.info-box h3 {
+  margin-bottom: 12px;
+  color: #00d4ff;
+  font-size: 16px;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.info-box p {
+  color: #ddd;
+  line-height: 1.65;
+  font-size: 14.5px;
+  transition: all 0.3s;
+}
+
+.info-box.highlight {
+  border-color: #ff006e;
+  box-shadow: 0 0 30px rgba(255, 0, 110, 0.3);
+  background: linear-gradient(135deg, rgba(255, 0, 110, 0.12), rgba(0, 212, 255, 0.12));
+}
+
+.info-box.highlight h3 { color: #ff006e; }
+
+.controls-hint {
+  text-align: center;
+  color: #666;
+  font-size: 13px;
+  padding: 14px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 12px;
+  border: 1px dashed rgba(0, 212, 255, 0.2);
+  letter-spacing: 0.5px;
+}
+
+/* ============ ABOUT SECTION ============ */
+.about-section {
+  padding: 90px 80px;
+  text-align: center;
+  background: radial-gradient(circle at center, rgba(0, 212, 255, 0.05), transparent 70%);
+}
+
+.about-section h2 {
+  font-size: 42px;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #00d4ff, #ff006e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+.about-section > p {
+  max-width: 700px;
+  margin: 0 auto 50px;
+  color: #999;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 25px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.feature {
+  padding: 35px 25px;
+  background: linear-gradient(145deg, #14142b, #0a0a18);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 212, 255, 0.12);
+  transition: all 0.4s;
+}
+
+.feature:hover {
+  transform: translateY(-8px);
+  border-color: #00d4ff;
+  box-shadow: 0 20px 50px rgba(0, 212, 255, 0.2);
+}
+
+.feature .icon {
+  font-size: 48px;
+  margin-bottom: 18px;
+  display: block;
+}
+
+.feature h4 {
+  font-size: 19px;
+  margin-bottom: 12px;
+  color: #00d4ff;
+}
+
+.feature p {
+  color: #888;
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+/* ============ FOOTER ============ */
+footer {
+  text-align: center;
+  padding: 50px 20px 30px;
+  color: #666;
+  border-top: 1px solid rgba(0, 212, 255, 0.1);
+  background: #05050d;
+}
+
+footer .footer-logo {
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, #00d4ff, #ff006e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+footer p {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+/* ============ SCROLLBAR ============ */
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-track { background: #05050d; }
+::-webkit-scrollbar-thumb { 
+  background: linear-gradient(180deg, #00d4ff, #ff006e);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #ff006e, #00d4ff);
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1100px) {
+  .hero { padding: 120px 40px 60px; }
+  .hero-content h1 { font-size: 50px; }
+  .hero-car-emoji { font-size: 200px; }
+  .cars-section, .about-section { padding: 70px 40px; }
+  .stats-bar { padding: 40px; grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .inspection-container { grid-template-columns: 1fr; gap: 25px; }
+  .modal-content { padding: 25px 20px; height: 95vh; }
+  .car-model { transform: scale(0.8); }
+  .hero { flex-direction: column; text-align: center; padding: 110px 25px 50px; }
+  .hero-content { max-width: 100%; }
+  .hero-content h1 { font-size: 38px; }
+  .hero-content p { font-size: 16px; }
+  .hero-car-emoji { font-size: 150px; }
+  .hero-buttons { justify-content: center; }
+  #header { padding: 12px 20px; }
+  #header.scrolled { padding: 10px 20px; }
+  nav { display: none; }
+  .search-box input { width: 140px; font-size: 13px; }
+  .search-box input:focus { width: 160px; }
+  .section-title h2 { font-size: 34px; }
+  .car-viewer-3d { min-height: 380px; }
+  .car-info-panel h2 { font-size: 26px; }
+}
+
+@media (max-width: 500px) {
+  .hero-content h1 { font-size: 30px; }
+  .hero-car-emoji { font-size: 110px; }
+  .btn-primary, .btn-outline { padding: 13px 28px; font-size: 14px; }
+  .cars-grid { grid-template-columns: 1fr; }
+  .car-model { transform: scale(0.6); }
+  .car-viewer-3d { min-height: 320px; }
+  .logo { font-size: 18px; }
+  .stat-item h3 { font-size: 30px; }
+  .specs-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ LOADER ============ -->
+<div id="loader">
+  <div class="loader-car">🏎️</div>
+  <h2>LOADING AUTOVERSE 3D</h2>
+  <div class="loader-bar"><div id="loaderFill"></div></div>
+  <p id="loaderText">0%</p>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header id="header">
+  <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">🏎️ AutoVerse 3D</div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#cars">Cars</a>
+    <a href="#about">About</a>
+  </nav>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔍 Search car...">
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section id="home" class="hero">
+  <div class="hero-content">
+    <span class="hero-tag">✦ Premium 3D Car Showroom</span>
+    <h1>Explore Amazing Cars in Interactive 3D</h1>
+    <p>Hover over any part to inspect in real 3D • Rotate • Zoom • Discover every detail of your dream car</p>
+    <div class="hero-buttons">
+      <button class="btn-primary" onclick="scrollToCars()">Start Inspection 🚀</button>
+      <button class="btn-outline" onclick="document.getElementById('about').scrollIntoView()">Learn More</button>
+    </div>
+  </div>
+  <div class="hero-3d">
+    <div class="hero-car-scene">
+      <span class="hero-car-emoji">🚗</span>
+      <div class="hero-glow"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS ============ -->
+<div class="stats-bar">
+  <div class="stat-item"><h3>10</h3><p>Premium Cars</p></div>
+  <div class="stat-item"><h3>360°</h3><p>3D View</p></div>
+  <div class="stat-item"><h3>50+</h3><p>Car Parts</p></div>
+  <div class="stat-item"><h3>100%</h3><p>Interactive</p></div>
+</div>
+
+<!-- ============ CARS SECTION ============ -->
+<section id="cars" class="cars-section">
+  <div class="section-title">
+    <h2>Our Car Collection</h2>
+    <p>Click on any car to inspect it in stunning 3D detail</p>
+  </div>
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">All Cars</button>
+    <button class="filter-btn" data-filter="sports">Sports</button>
+    <button class="filter-btn" data-filter="sedan">Sedan</button>
+    <button class="filter-btn" data-filter="suv">SUV</button>
+    <button class="filter-btn" data-filter="electric">Electric</button>
+    <button class="filter-btn" data-filter="luxury">Luxury</button>
+  </div>
+  <div class="cars-grid" id="carsGrid"></div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about" class="about-section">
+  <h2>Why AutoVerse 3D?</h2>
+  <p>Experience cars like never before with our cutting-edge 3D inspection technology. Every part is interactive, every detail matters.</p>
+  <div class="features">
+    <div class="feature">
+      <span class="icon">🎯</span>
+      <h4>Interactive 3D</h4>
+      <p>Hover over wheels, engine, lights, and body parts to see them come alive in 3D.</p>
+    </div>
+    <div class="feature">
+      <span class="icon">🔍</span>
+      <h4>Deep Inspection</h4>
+      <p>Get detailed specs and info about every single part of the car instantly.</p>
+    </div>
+    <div class="feature">
+      <span class="icon">🎨</span>
+      <h4>Premium Design</h4>
+      <p>Beautiful animations and smooth transitions for a luxury showroom experience.</p>
+    </div>
+    <div class="feature">
+      <span class="icon">⚡</span>
+      <h4>Fast & Smooth</h4>
+      <p>Optimized performance with buttery-smooth 60fps 3D animations.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3D INSPECTION MODAL ============ -->
+<div id="inspectionModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeInspection()">&times;</span>
+    <div class="inspection-container">
+      
+      <div class="car-viewer-3d">
+        <div class="car-model" id="carModel">
+          <div class="car-body">
+            <div class="car-part car-roof" data-part="roof" 
+                 data-info="🎨 Panoramic Sunroof: Tinted laminated glass with UV protection. Auto-dimming and acoustic insulation for a premium cabin experience."></div>
+            <div class="car-part car-windshield" data-part="windshield" 
+                 data-info="🪟 Windshield: Laminated safety glass with rain-sensor wipers. Hydrophobic coating repels water. Integrated acoustic layer for silent cabin."></div>
+            <div class="car-part car-hood" data-part="hood" 
+                 data-info="⚙️ Hood: Lightweight aluminum alloy with heat-resistant coating. Aerodynamic air vents channel airflow for engine cooling and downforce."></div>
+            <div class="car-part car-trunk" data-part="trunk" 
+                 data-info="🧳 Trunk: Power-operated with hands-free sensor. 480L capacity. Smart storage with modular dividers and LED ambient lighting."></div>
+          </div>
+          
+          <div class="wheel wheel-fl" data-part="wheel-front-left" 
+               data-info="🛞 Front Left Wheel: 19-inch forged alloy rim. Tire size 245/40 R19. Ventilated disc brakes with ABS & EBD. Low rolling resistance."></div>
+          <div class="wheel wheel-fr" data-part="wheel-front-right" 
+               data-info="🛞 Front Right Wheel: 19-inch forged alloy rim. Tire size 245/40 R19. Ventilated disc brakes with ABS & EBD. Low rolling resistance."></div>
+          
+          <div class="headlight headlight-l" data-part="headlight-left" 
+               data-info="💡 Left Headlight: LED Matrix technology. 5000K color temperature. Adaptive beam with auto high-beam. 200m visibility range."></div>
+          <div class="headlight headlight-r" data-part="headlight-right" 
+               data-info="💡 Right Headlight: LED Matrix technology. 5000K color temperature. Adaptive beam with auto high-beam. 200m visibility range."></div>
+          
+          <div class="taillight taillight-l" data-part="taillight-left" 
+               data-info="🔴 Left Taillight: OLED technology with sequential turn signals. Dynamic animation on lock/unlock. 300ms response time."></div>
+          <div class="taillight taillight-r" data-part="taillight-right" 
+               data-info="🔴 Right Taillight: OLED technology with sequential turn signals. Dynamic animation on lock/unlock. 300ms response time."></div>
+          
+          <div class="car-shadow-3d"></div>
+        </div>
+      </div>
+
+      <div class="car-info-panel">
+        <h2 id="modalCarName">Car Name</h2>
+        <p id="modalCarDesc">Description</p>
+        
+        <div class="specs-grid">
+          <div class="spec"><span>Engine</span><strong id="specEngine">-</strong></div>
+          <div class="spec"><span>Power</span><strong id="specPower">-</strong></div>
+          <div class="spec"><span>Top Speed</span><strong id="specSpeed">-</strong></div>
+          <div class="spec"><span>0-100 km/h</span><strong id="specAccel">-</strong></div>
+          <div class="spec"><span>Price</span><strong id="specPrice">-</strong></div>
+          <div class="spec"><span>Year</span><strong id="specYear">-</strong></div>
+        </div>
+
+        <div class="info-box" id="infoBox">
+          <h3>🔍 Interactive Inspection</h3>
+          <p id="partInfo">Hover over any part of the car — wheels, roof, lights, hood — to see detailed information in 3D.</p>
+        </div>
+
+        <div class="controls-hint">
+          🖱️ Hover parts to inspect • Drag car to rotate • Scroll page for more
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-logo">🏎️ AutoVerse 3D</div>
+  <p>© 2024 AutoVerse 3D — Premium 10 Cars Collection</p>
+  <p style="color:#444;font-size:12px;">Built with 💙 for car enthusiasts worldwide</p>
+</footer>
+
+<script>
+/* ================================================================
+   10 PREMIUM CARS DATA
+================================================================ */
+const cars = [
+  {
+    id: 0,
+    name: 'Ferrari SF90 Stradale',
+    brand: 'Ferrari',
+    type: 'sports',
+    emoji: '🏎️',
+    price: '$625,000',
+    year: 2024,
+    engine: '4.0L V8 Hybrid',
+    power: '986 HP',
+    speed: '340 km/h',
+    accel: '2.5s',
+    color: 'linear-gradient(180deg, #e53935, #b71c1c)',
+    roofColor: 'linear-gradient(180deg, #ef5350, #c62828)',
+    desc: 'The SF90 Stradale is Ferrari\'s first series-production plug-in hybrid electric vehicle. A masterpiece combining a twin-turbo V8 with three electric motors for mind-blowing performance.'
+  },
+  {
+    id: 1,
+    name: 'Lamborghini Aventador SVJ',
+    brand: 'Lamborghini',
+    type: 'sports',
+    emoji: '🏎️',
+    price: '$520,000',
+    year: 2023,
+    engine: '6.5L V12',
+    power: '770 HP',
+    speed: '350 km/h',
+    accel: '2.8s',
+    color: 'linear-gradient(180deg, #43a047, #1b5e20)',
+    roofColor: 'linear-gradient(180deg, #66bb6a, #2e7d32)',
+    desc: 'The Aventador SVJ (Super Veloce Jota) is the most powerful and track-focused Aventador ever built. With ALA 2.0 aerodynamics, it dominates both road and track.'
+  },
+  {
+    id: 2,
+    name: 'Tesla Model S Plaid',
+    brand: 'Tesla',
+    type: 'electric',
+    emoji: '🚗',
+    price: '$135,000',
+    year: 2024,
+    engine: 'Tri-Motor Electric',
+    power: '1,020 HP',
+    speed: '322 km/h',
+    accel: '1.99s',
+    color: 'linear-gradient(180deg, #212121, #000000)',
+    roofColor: 'linear-gradient(180deg, #424242, #1a1a1a)',
+    desc: 'The Model S Plaid is the quickest production car ever made. Tri-motor AWD with carbon-sleeved rotors delivers insane acceleration and 637 km of range.'
+  },
+  {
+    id: 3,
+    name: 'BMW M5 Competition',
+    brand: 'BMW',
+    type: 'sedan',
+    emoji: '🚙',
+    price: '$115,000',
+    year: 2024,
+    engine: '4.4L V8 Twin-Turbo',
+    power: '625 HP',
+    speed: '305 km/h',
+    accel: '3.3s',
+    color: 'linear-gradient(180deg, #1e88e5, #0d47a1)',
+    roofColor: 'linear-gradient(180deg, #42a5f5, #1565c0)',
+    desc: 'The M5 Competition blends luxury sedan comfort with supercar-level performance. M xDrive AWD, adaptive suspension, and track-tuned chassis make it the ultimate driver\'s sedan.'
+  },
+  {
+    id: 4,
+    name: 'Mercedes AMG GT 63 S',
+    brand: 'Mercedes',
+    type: 'luxury',
+    emoji: '🚗',
+    price: '$180,000',
+    year: 2024,
+    engine: '4.0L V8 Biturbo',
+    power: '630 HP',
+    speed: '315 km/h',
+    accel: '3.2s',
+    color: 'linear-gradient(180deg, #8e24aa, #4a148c)',
+    roofColor: 'linear-gradient(180deg, #ab47bc, #6a1b9a)',
+    desc: 'The AMG GT 63 S 4-Door Coupe is the perfect blend of sports car DNA and luxury sedan practicality. Handcrafted AMG engine delivers breathtaking performance.'
+  },
+  {
+    id: 5,
+    name: 'Porsche 911 Turbo S',
+    brand: 'Porsche',
+    type: 'sports',
+    emoji: '🏎️',
+    price: '$230,000',
+    year: 2024,
+    engine: '3.8L Flat-6 Turbo',
+    power: '650 HP',
+    speed: '330 km/h',
+    accel: '2.7s',
+    color: 'linear-gradient(180deg, #fdd835, #f57f17)',
+    roofColor: 'linear-gradient(180deg, #ffee58, #f9a825)',
+    desc: 'The 911 Turbo S is the pinnacle of the iconic 911 lineage. Twin-turbo flat-six, PDK transmission, and active aerodynamics create the perfect sports car formula.'
+  },
+  {
+    id: 6,
+    name: 'Audi R8 V10 Performance',
+    brand: 'Audi',
+    type: 'sports',
+    emoji: '🏎️',
+    price: '$210,000',
+    year: 2024,
+    engine: '5.2L V10',
+    power: '620 HP',
+    speed: '331 km/h',
+    accel: '3.1s',
+    color: 'linear-gradient(180deg, #00acc1, #006064)',
+    roofColor: 'linear-gradient(180deg, #26c6da, #00838f)',
+    desc: 'The R8 V10 Performance is the final chapter of Audi\'s mid-engine masterpiece. Naturally aspirated V10 shared with Lamborghini delivers a spine-tingling soundtrack.'
+  },
+  {
+    id: 7,
+    name: 'Range Rover Sport SV',
+    brand: 'Land Rover',
+    type: 'suv',
+    emoji: '🚙',
+    price: '$185,000',
+    year: 2024,
+    engine: '4.4L V8 Twin-Turbo',
+    power: '626 HP',
+    speed: '290 km/h',
+    accel: '3.6s',
+    color: 'linear-gradient(180deg, #37474f, #263238)',
+    roofColor: 'linear-gradient(180deg, #546e7a, #37474f)',
+    desc: 'The Range Rover Sport SV is the most powerful Land Rover ever. 6D Dynamics suspension, carbon fiber wheels, and track-tuned chassis make this SUV defy physics.'
+  },
+  {
+    id: 8,
+    name: 'McLaren 720S',
+    brand: 'McLaren',
+    type: 'sports',
+    emoji: '🏎️',
+    price: '$310,000',
+    year: 2023,
+    engine: '4.0L V8 Twin-Turbo',
+    power: '710 HP',
+    speed: '341 km/h',
+    accel: '2.9s',
+    color: 'linear-gradient(180deg, #fb8c00, #e65100)',
+    roofColor: 'linear-gradient(180deg, #ffa726, #ef6c00)',
+    desc: 'The 720S features McLaren\'s revolutionary Monocage II carbon fiber structure. Proactive Chassis Control II and dihedral doors create an unforgettable supercar experience.'
+  },
+  {
+    id: 9,
+    name: 'Bugatti Chiron Super Sport',
+    brand: 'Bugatti',
+    type: 'luxury',
+    emoji: '🏎️',
+    price: '$3,900,000',
+    year: 2024,
+    engine: '8.0L W16 Quad-Turbo',
+    power: '1,578 HP',
+    speed: '440 km/h',
+    accel: '2.4s',
+    color: 'linear-gradient(180deg, #1565c0, #0d47a1)',
+    roofColor: 'linear-gradient(180deg, #1e88e5, #1565c0)',
+    desc: 'The Chiron Super Sport is the ultimate expression of automotive engineering. A quad-turbo W16 produces 1,578 HP, making it one of the fastest cars ever built.'
+  }
+];
+
+/* ================================================================
+   LOADER
+================================================================ */
+let progress = 0;
+const loaderInterval = setInterval(() => {
+  progress += Math.random() * 7 + 2;
+  if (progress >= 100) {
+    progress = 100;
+    clearInterval(loaderInterval);
+    setTimeout(() => {
+      document.getElementById('loader').style.opacity = '0';
+      setTimeout(() => {
+        document.getElementById('loader').style.display = 'none';
+        renderCars(cars);
+      }, 700);
+    }, 300);
+  }
+  document.getElementById('loaderFill').style.width = progress + '%';
+  document.getElementById('loaderText').textContent = Math.floor(progress) + '%';
+}, 90);
+
+/* ================================================================
+   RENDER CARS
+================================================================ */
+function renderCars(carList) {
+  const grid = document.getElementById('carsGrid');
+  grid.innerHTML = '';
+  
+  if (carList.length === 0) {
+    grid.innerHTML = '<p style="text-align:center;color:#888;grid-column:1/-1;padding:40px;font-size:18px;">😔 No cars found matching your search.</p>';
+    return;
+  }
+  
+  carList.forEach((car, index) => {
+    const card = document.createElement('div');
+    card.className = 'car-card';
+    card.style.animation = `fadeInUp 0.6s ease ${Math.min(index * 0.08, 0.8)}s both`;
+    card.innerHTML = `
+      <span class="car-badge-type">${car.type}</span>
+      <span class="car-emoji">${car.emoji}</span>
+      <h3>${car.name}</h3>
+      <div class="brand">${car.brand} • ${car.year}</div>
+      <div class="price">${car.price}</div>
+      <button class="view-btn">🔍 Inspect in 3D</button>
+    `;
+    card.addEventListener('click', () => openInspection(car));
+    grid.appendChild(card);
+  });
+}
+
+/* ================================================================
+   FILTERS
+================================================================ */
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    const filtered = filter === 'all' ? cars : cars.filter(c => c.type === filter);
+    renderCars(filtered);
+  });
+});
+
+/* ================================================================
+   SEARCH
+================================================================ */
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase().trim();
+  const filtered = query === '' ? cars : cars.filter(c => 
+    c.name.toLowerCase().includes(query) ||
+    c.brand.toLowerCase().includes(query) ||
+    c.type.toLowerCase().includes(query)
+  );
+  renderCars(filtered);
+});
+
+/* ================================================================
+   INSPECTION MODAL
+================================================================ */
+let rotation = { x: -12, y: -25 };
+let isDragging = false;
+let lastMouse = { x: 0, y: 0 };
+let autoSpinEnabled = true;
+
+function openInspection(car) {
+  const modal = document.getElementById('inspectionModal');
+  modal.classList.add('active');
+  document.body.classList.add('no-scroll');
+  
+  // Update text info
+  document.getElementById('modalCarName').textContent = car.name;
+  document.getElementById('modalCarDesc').textContent = car.desc;
+  document.getElementById('specEngine').textContent = car.engine;
+  document.getElementById('specPower').textContent = car.power;
+  document.getElementById('specSpeed').textContent = car.speed;
+  document.getElementById('specAccel').textContent = car.accel;
+  document.getElementById('specPrice').textContent = car.price;
+  document.getElementById('specYear').textContent = car.year;
+  
+  // Reset info box
+  const infoBox = document.getElementById('infoBox');
+  infoBox.classList.remove('highlight');
+  document.getElementById('partInfo').textContent = 'Hover over any part of the car — wheels, roof, lights, hood — to see detailed information in 3D.';
+  
+  // Apply car color
+  document.querySelector('.car-body').style.background = car.color;
+  document.querySelector('.car-hood').style.background = car.color;
+  document.querySelector('.car-trunk').style.background = car.color;
+  document.querySelector('.car-roof').style.background = car.roofColor;
+  
+  // Reset rotation
+  rotation = { x: -12, y: -25 };
+  const carModel = document.getElementById('carModel');
+  carModel.style.transition = 'none';
+  applyRotation();
+  setTimeout(() => {
+    carModel.style.transition = 'transform 0.15s ease-out';
+  }, 50);
+}
+
+function closeInspection() {
+  document.getElementById('inspectionModal').classList.remove('active');
+  document.body.classList.remove('no-scroll');
+}
+
+// Close on background click
+document.getElementById('inspectionModal').addEventListener('click', (e) => {
+  if (e.target.id === 'inspectionModal') closeInspection();
+});
+
+// Close on ESC
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeInspection();
+});
+
+/* ================================================================
+   3D CAR DRAG ROTATION
+================================================================ */
+const carModel = document.getElementById('carModel');
+
+function applyRotation() {
+  carModel.style.transform = `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`;
+}
+
+carModel.addEventListener('mousedown', (e) => {
+  isDragging = true;
+  lastMouse.x = e.clientX;
+  lastMouse.y = e.clientY;
+  carModel.style.cursor = 'grabbing';
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (!isDragging) return;
+  const deltaX = e.clientX - lastMouse.x;
+  const deltaY = e.clientY - lastMouse.y;
+  rotation.y += deltaX * 0.5;
+  rotation.x -= deltaY * 0.3;
+  rotation.x = Math.max(-60, Math.min(60, rotation.x));
+  lastMouse.x = e.clientX;
+  lastMouse.y = e.clientY;
+  applyRotation();
+});
+
+document.addEventListener('mouseup', () => {
+  isDragging = false;
+  carModel.style.cursor = 'grab';
+});
+
+// Touch support
+carModel.addEventListener('touchstart', (e) => {
+  isDragging = true;
+  lastMouse.x = e.touches[0].clientX;
+  lastMouse.y = e.touches[0].clientY;
+}, { passive: true });
+
+document.addEventListener('touchmove', (e) => {
+  if (!isDragging) return;
+  const deltaX = e.touches[0].clientX - lastMouse.x;
+  const deltaY = e.touches[0].clientY - lastMouse.y;
+  rotation.y += deltaX * 0.5;
+  rotation.x -= deltaY * 0.3;
+  rotation.x = Math.max(-60, Math.min(60, rotation.x));
+  lastMouse.x = e.touches[0].clientX;
+  lastMouse.y = e.touches[0].clientY;
+  applyRotation();
+}, { passive: true });
+
+document.addEventListener('touchend', () => { isDragging = false; });
+
+/* ================================================================
+   CAR PART HOVER - 3D INFO
+================================================================ */
+document.querySelectorAll('[data-part]').forEach(part => {
+  part.addEventListener('mouseenter', () => {
+    const info = part.dataset.info;
+    const infoBox = document.getElementById('infoBox');
+    const partInfo = document.getElementById('partInfo');
+    partInfo.textContent = info;
+    infoBox.classList.add('highlight');
+    infoBox.style.animation = 'none';
+    setTimeout(() => {
+      infoBox.style.animation = 'modalIn 0.3s ease';
+    }, 10);
+  });
+  
+  part.addEventListener('mouseleave', () => {
+    const infoBox = document.getElementById('infoBox');
+    infoBox.classList.remove('highlight');
+    document.getElementById('partInfo').textContent = 'Hover over any part of the car — wheels, roof, lights, hood — to see detailed information in 3D.';
+  });
+});
+
+/* ================================================================
+   SCROLL EFFECTS
+================================================================ */
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('header');
+  if (window.scrollY > 50) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+});
+
+function scrollToCars() {
+  document.getElementById('cars').scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ================================================================
+   HERO CAR PARALLAX
+================================================================ */
+document.addEventListener('mousemove', (e) => {
+  const heroCar = document.querySelector('.hero-car-scene');
+  if (!heroCar) return;
+  const x = (e.clientX / window.innerWidth - 0.5) * 30;
+  const y = (e.clientY / window.innerHeight - 0.5) * 20;
+  heroCar.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+/* ================================================================
+   CARD 3D TILT EFFECT
+================================================================ */
+document.addEventListener('mousemove', (e) => {
+  const cards = document.querySelectorAll('.car-card');
+  cards.forEach(card => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    if (x > 0 && x < rect.width && y > 0 && y < rect.height) {
+      const rotateY = ((x / rect.width) - 0.5) * 12;
+      const rotateX = ((y / rect.height) - 0.5) * -12;
+      card.style.transform = `translateY(-12px) rotateY(${rotateY}deg) rotateX(${rotateX}deg) scale(1.03)`;
+    }
+  });
+});
+
+document.addEventListener('mouseout', (e) => {
+  if (e.target.classList && e.target.classList.contains('car-card')) {
+    e.target.style.transform = '';
+  }
+});
+
+console.log('%c🏎️ AutoVerse 3D Loaded Successfully!', 'color:#00d4ff;font-size:18px;font-weight:bold;');
+console.log('%c10 Premium Cars Ready for 3D Inspection', 'color:#ff006e;font-size:14px;');
+</script>
+</body>
+</html>
